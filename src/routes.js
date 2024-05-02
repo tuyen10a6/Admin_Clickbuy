@@ -1,0 +1,36 @@
+import React from 'react'
+import { Navigate } from 'react-router-dom'
+
+const token = localStorage.getItem('token')
+
+const isAuthenticated = token ? true : false
+
+const Dashboard = isAuthenticated
+  ? React.lazy(() => import('./views/dashboard/Dashboard'))
+  : () => <Navigate to="/" />
+
+const Product = isAuthenticated
+  ? React.lazy(() => import('./views/base/product/ProductList'))
+  : () => <Navigate to="/" />
+
+const AddProduct = isAuthenticated
+  ? React.lazy(() => import('./views/base/product/Addproduct'))
+  : () => <Navigate to="/" />
+
+const ProductVariant = React.lazy(() => import('./views/base/variant/Variants'))
+
+//Forms
+const FormControl = React.lazy(() => import('./views/forms/form-control/FormControl'))
+
+const routes = [
+  { path: '/', exact: true, name: 'Home' },
+  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/product', name: 'Product', element: Product },
+  { path: '/product/add', name: 'Product', element: AddProduct },
+  { path: '/Base/variant/:id', name: 'ProductVariant', element: ProductVariant },
+
+  { path: '/forms', name: 'Forms', element: FormControl, exact: true },
+  { path: '/forms/form-control', name: 'Form Control', element: FormControl },
+]
+
+export default routes
