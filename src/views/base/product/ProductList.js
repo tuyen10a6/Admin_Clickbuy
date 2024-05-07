@@ -8,11 +8,12 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import axios from 'axios'
-import { Button, Container } from '@mui/material'
+import { Button, Container, Typography } from '@mui/material'
 import ButtonCreate from '@mui/icons-material/AddCircle'
 import Box from '@mui/material/Box'
 import { CircularProgress } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import EditIcon from '@mui/icons-material/Edit'
 
 const columns = [
   { id: 'name', label: 'Tên sản phẩm', minWidth: 200, align: 'center' },
@@ -34,6 +35,13 @@ const columns = [
   {
     id: 'date_create',
     label: 'Ngày tạo',
+    minWidth: 170,
+    align: 'center',
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'update',
+    label: 'Thao tác',
     minWidth: 170,
     align: 'center',
     format: (value) => value.toFixed(2),
@@ -115,6 +123,10 @@ export default function ColumnGroupingTable() {
     navigate('add')
   }
 
+  const handleUpdateProduct = (id) => {
+    navigate(`update/${id}`)
+  }
+
   return (
     <Container>
       {loading ? (
@@ -157,6 +169,12 @@ export default function ColumnGroupingTable() {
                     </TableCell>
                     <TableCell style={{ textAlign: 'center' }}>
                       {formatDate(row.DateCreated)}
+                    </TableCell>
+
+                    <TableCell style={{ textAlign: 'center' }}>
+                      <Link to={`/product/update/${row.ProductID}`}>
+                        <EditIcon />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}

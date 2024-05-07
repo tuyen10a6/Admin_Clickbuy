@@ -118,7 +118,6 @@ const AddProduct = () => {
           const body = new FormData()
           loader.file.then((file) => {
             body.append('image', file)
-            console.log(file)
             axios
               .post(`${API_URL}/api/uploads`, body)
               .then((res) => {
