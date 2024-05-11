@@ -1,3 +1,4 @@
+import { element } from 'prop-types'
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 
@@ -23,6 +24,12 @@ const UpdateProduct = isAuthenticated
 
 const ProductVariant = React.lazy(() => import('./views/base/variant/Variants'))
 
+const ProductVariantUpdate = React.lazy(() => import('./views/base/variant/Update'))
+
+const ProductVariantAdd = isAuthenticated
+  ? React.lazy(() => import('./views/base/variant/Add'))
+  : () => <Navigate to="/" />
+
 //Forms
 const FormControl = React.lazy(() => import('./views/forms/form-control/FormControl'))
 
@@ -32,8 +39,9 @@ const routes = [
   { path: '/product', name: 'Product', element: Product },
   { path: '/product/add', name: 'Product', element: AddProduct },
   { path: '/product/update/:id', name: 'Product', element: UpdateProduct },
-  { path: '/Base/variant/:id', name: 'ProductVariant', element: ProductVariant },
-
+  { path: '/product/variant/:id', name: 'ProductVariant', element: ProductVariant },
+  { path: 'product/variant/update/:id', name: 'ProductVariant', element: ProductVariantUpdate },
+  { path: 'product/variant/add/:id', name: 'ProductVariant', element: ProductVariantAdd },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]

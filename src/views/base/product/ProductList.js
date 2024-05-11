@@ -14,6 +14,7 @@ import Box from '@mui/material/Box'
 import { CircularProgress } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 
 const columns = [
   { id: 'name', label: 'Tên sản phẩm', minWidth: 200, align: 'center' },
@@ -52,6 +53,7 @@ export default function ColumnGroupingTable() {
   const API_URL = process.env.REACT_APP_API_URL
   const URL_IMAGE = process.env.REACT_APP_API_IMAGE
 
+  const token = localStorage.getItem('token')
   const navigate = useNavigate()
 
   const [category, setCategory] = useState([])
@@ -123,8 +125,21 @@ export default function ColumnGroupingTable() {
     navigate('add')
   }
 
-  const handleUpdateProduct = (id) => {
-    navigate(`update/${id}`)
+  const handleDeleteProduct = async (id) => {
+    try {
+      await axios
+        .delete(`${API_URL}/api/product/delete?id=${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(() => {
+          alert('Xoá sản phẩm thành công')
+          window.location.reload()
+        })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -159,7 +174,15 @@ export default function ColumnGroupingTable() {
               <TableBody>
                 {product.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.ProductID}>
-                    <TableCell style={{ textAlign: 'center' }}>{row.ProductName}</TableCell>
+                    <TableCell style={{ textAlign: 'center' }}>
+                      <Link
+                        to={`/product/variant/${row.ProductID}`}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        {row.ProductName}
+                      </Link>
+                    </TableCell>
+
                     <TableCell style={{ textAlign: 'center' }}>
                       {row.categories.CategoryName}
                     </TableCell>
@@ -170,11 +193,11 @@ export default function ColumnGroupingTable() {
                     <TableCell style={{ textAlign: 'center' }}>
                       {formatDate(row.DateCreated)}
                     </TableCell>
-
                     <TableCell style={{ textAlign: 'center' }}>
-                      <Link to={`/product/update/${row.ProductID}`}>
+                      <Link style={{ marginRight: '10px' }} to={`/product/update/${row.ProductID}`}>
                         <EditIcon />
                       </Link>
+                      <DeleteOutlinedIcon onClick={() => handleDeleteProduct(row.ProductID)} />
                     </TableCell>
                   </TableRow>
                 ))}

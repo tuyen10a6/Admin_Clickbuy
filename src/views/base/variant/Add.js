@@ -4,27 +4,18 @@ import { NativeSelect } from '@mui/material'
 import { FormControl } from '@mui/material'
 import axios from 'axios'
 import imageDefault from './../../../../src/assets/images/default-product-img.jpg'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
-const UpdateProduct = () => {
-  const { id } = useParams()
+const AddProductVariant = () => {
   const navigate = useNavigate()
   const [categories, setcategories] = useState([])
-  const [brand, setBrand] = useState([])
   const [image, setImage] = useState(null)
   const [imageData, setImageData] = useState('')
   const [name, setName] = useState('')
+
   const [editorData, setEditorData] = useState('')
-  const [product, setProduct] = useState({
-    ProductID: '',
-    ProductName: '',
-    CategoryID: '',
-    BrandID: '',
-    Description: '',
-    DetailProduct: '',
-  })
 
   const handleEditorChange = (event, editor) => {
     const data = editor.getData()
@@ -35,44 +26,6 @@ const UpdateProduct = () => {
   const token = localStorage.getItem('token')
   const API_URL = process.env.REACT_APP_API_URL
   const URL_APP = process.env.REACT_APP_API_IMAGE
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/product/getProductByID?id=${id}`)
-        console.log(response.data.data)
-        setProduct(response.data.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/brand/getAll`)
-        setBrand(response.data.data.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/category/getAll`)
-        setcategories(response.data.response.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchData()
-  }, [])
 
   const onChangeImage = (event) => {
     const file = event.target.files[0]
@@ -90,56 +43,28 @@ const UpdateProduct = () => {
 
   const onChangeProductName = (event) => {
     event.preventDefault()
-    setProduct({
-      ...product,
-      ProductName: event.target.value,
-    })
-    console.log(event.target.value)
-  }
-
-  const handleSelectCategory = (event) => {
-    setProduct({
-      ...product,
-      CategoryID: event.target.value,
-    })
-    console.log(event.target.value)
-  }
-
-  const handleDescription = (event) => {
-    setProduct({
-      ...product,
-      Description: event.target.value,
-    })
+    setName(event.target.value)
     console.log(event.target.value)
   }
 
   const formData = new FormData()
 
-  formData.append('id', id)
-  formData.append('ProductName', product.ProductName)
+  formData.append('ProductName', name)
   formData.append('image', imageData)
-  formData.append('CategoryID', product.CategoryID)
-  formData.append('BrandID', product.BrandID)
-  formData.append('Description', product.Description)
+
   formData.append('DetailProduct', editorData)
 
-  const handleUpdateProduct = async () => {
+  const handleAddProduct = async () => {
     try {
-      const response = await axios.post(`${API_URL}/api/product/update`, formData, {
+      const response = await axios.post(`${API_URL}/api/product/store`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      alert('Cập nhật dữ liệu thành công')
+
+      alert('Thêm dữ liệu thành công!')
       navigate('/product')
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const handleChangeBrand = (event) => {
-    setProduct({
-      ...product,
-      BrandID: event.target.value,
-    })
   }
 
   function uploadAdapter(loader) {
@@ -185,7 +110,7 @@ const UpdateProduct = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
-                Cập nhật đơn hàng
+                Thêm biến thể sản phẩm
               </Typography>
             </Box>
           </Box>
@@ -193,35 +118,17 @@ const UpdateProduct = () => {
       </Grid>
       <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <img style={{ width: '20px' }} />
           <TextField
             onChange={onChangeProductName}
             id="productName"
+            label="Tên biến thể"
             variant="outlined"
             fullWidth
-            value={product.ProductName}
           />
         </Grid>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <Typography sx={{ marginTop: '-5px' }} htmlFor="uncontrolled-native">
-            Danh mục
-          </Typography>
-          <FormControl fullWidth>
-            <NativeSelect
-              onChange={handleSelectCategory}
-              id="uncontrolled-native"
-              value={product.CategoryID}
-            >
-              <option disabled>Chọn danh mục</option>
-              {categories.map((item) =>
-                item.CategoryID ? (
-                  <option key={item.CategoryID} value={item.CategoryID}>
-                    {item.CategoryName}
-                  </option>
-                ) : null,
-              )}
-            </NativeSelect>
-          </FormControl>
+          <Typography htmlFor="uncontrolled-native">Danh mục</Typography>
+          <FormControl fullWidth></FormControl>
         </Grid>
       </Grid>
 
@@ -233,42 +140,16 @@ const UpdateProduct = () => {
           {image ? (
             <img style={{ borderRadius: '8px' }} width="120px" src={image} />
           ) : (
-            <img width="120px" src={`${URL_APP}${product.ImageURL}`} />
+            <img width="120px" src={imageDefault} />
           )}
         </Grid>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <Typography htmlFor="uncontrolled-native">Nhãn hiệu</Typography>
-          <FormControl fullWidth>
-            <NativeSelect
-              value={product.BrandID}
-              onChange={handleChangeBrand}
-              id="uncontrolled-native"
-            >
-              <option selected disabled>
-                Chọn nhãn hiệu
-              </option>
-              {brand.map((item) =>
-                item.BrandID ? (
-                  <option key={item.BrandID} value={item.BrandID}>
-                    {item.BrandName}
-                  </option>
-                ) : null,
-              )}
-            </NativeSelect>
-          </FormControl>
+          <FormControl fullWidth></FormControl>
         </Grid>
       </Grid>
       <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
-        <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <TextField
-            onChange={handleDescription}
-            id="note"
-            placeholder="Ghi chú"
-            variant="outlined"
-            fullWidth
-            value={product.Description}
-          />
-        </Grid>
+        <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}></Grid>
       </Grid>
       <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
         <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
@@ -277,7 +158,7 @@ const UpdateProduct = () => {
               extraPlugins: [uploadPlugin],
             }}
             editor={ClassicEditor}
-            data={product.DetailProduct ? product.DetailProduct : null}
+            data={editorData}
             onChange={handleEditorChange}
           />
           {/* <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 0 } }}>
@@ -288,8 +169,8 @@ const UpdateProduct = () => {
       </Grid>
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <Button onClick={handleUpdateProduct} variant="contained" color="primary">
-            Cập nhật
+          <Button onClick={handleAddProduct} variant="contained" color="primary">
+            Lưu
           </Button>
         </Grid>
       </Grid>
@@ -297,4 +178,4 @@ const UpdateProduct = () => {
   )
 }
 
-export default UpdateProduct
+export default AddProductVariant
