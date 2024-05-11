@@ -35,6 +35,9 @@ export default function ProductVariant() {
   const handleAddVariant = () => {
     navigate(`/product/variant/add/${id}`)
   }
+  const handleUpdateVariant = (id) => {
+    navigate(`/product/variant/update/${id}`)
+  }
 
   return (
     <Card>
@@ -78,7 +81,11 @@ export default function ProductVariant() {
                 </TableCell>
                 <TableCell align="center">{row.ProductVariantSL}</TableCell>
                 <TableCell align="center">
-                  <Button variant="contained" startIcon={<SyncAltIcon />}>
+                  <Button
+                    onClick={() => handleUpdateVariant(row.VARRIANTID)}
+                    variant="contained"
+                    startIcon={<SyncAltIcon />}
+                  >
                     Sửa
                   </Button>
                   <hr />

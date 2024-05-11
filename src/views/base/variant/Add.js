@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Typography, Grid, TextField, Button } from '@mui/material'
+import { Box, Typography, Grid, TextField, Button, InputLabel } from '@mui/material'
 import { NativeSelect } from '@mui/material'
 import { FormControl } from '@mui/material'
 import axios from 'axios'
 import imageDefault from './../../../../src/assets/images/default-product-img.jpg'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 const AddProductVariant = () => {
   const navigate = useNavigate()
-  const [categories, setcategories] = useState([])
+  const { id } = useParams()
   const [image, setImage] = useState(null)
   const [imageData, setImageData] = useState('')
   const [name, setName] = useState('')
-
-  const [editorData, setEditorData] = useState('')
-
-  const handleEditorChange = (event, editor) => {
-    const data = editor.getData()
-    console.log('data:', data)
-    setEditorData(data)
-  }
+  const [color, setColor] = useState('Đen')
+  const [capacity, setCapacity] = useState('64GB')
+  const [price, setPrice] = useState('')
 
   const token = localStorage.getItem('token')
   const API_URL = process.env.REACT_APP_API_URL
-  const URL_APP = process.env.REACT_APP_API_IMAGE
 
   const onChangeImage = (event) => {
     const file = event.target.files[0]
@@ -41,57 +35,49 @@ const AddProductVariant = () => {
     }
   }
 
-  const onChangeProductName = (event) => {
+  const onChangeVariantName = (event) => {
     event.preventDefault()
     setName(event.target.value)
     console.log(event.target.value)
   }
 
+  const onChangeColorVariant = (event) => {
+    event.preventDefault()
+    setColor(event.target.value)
+    console.log(event.target.value)
+  }
+
+  const onChangeCapacityVariant = (event) => {
+    event.preventDefault()
+    setCapacity(event.target.value)
+    console.log(event.target.value)
+  }
+
+  const onChangePriceVariant = (event) => {
+    event.preventDefault()
+    setPrice(event.target.value)
+    console.log(event.target.value)
+  }
+
   const formData = new FormData()
 
-  formData.append('ProductName', name)
+  formData.append('VARRIANNAME', name)
   formData.append('image', imageData)
-
-  formData.append('DetailProduct', editorData)
-
+  formData.append('ProductID', id)
+  formData.append('COLOR', color)
+  formData.append('Capacity', capacity)
+  formData.append('PRICE', price)
+  formData.append('ProductVariantSL', 0)
   const handleAddProduct = async () => {
     try {
-      const response = await axios.post(`${API_URL}/api/product/store`, formData, {
+      const response = await axios.post(`${API_URL}/api/variant/store`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
       alert('Thêm dữ liệu thành công!')
-      navigate('/product')
+      navigate(`/product/variant/${id}`)
     } catch (error) {
       console.log(error)
-    }
-  }
-
-  function uploadAdapter(loader) {
-    return {
-      upload: () => {
-        return new Promise((resolve, reject) => {
-          const body = new FormData()
-          loader.file.then((file) => {
-            body.append('image', file)
-            axios
-              .post(`${API_URL}/api/uploads`, body)
-              .then((res) => {
-                console.log('datas:', res.data.url)
-                resolve({ default: `${URL_APP}${res.data.url}` })
-              })
-              .catch((err) => {
-                reject(err)
-              })
-          })
-        })
-      },
-    }
-  }
-
-  function uploadPlugin(editor) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-      return uploadAdapter(loader)
     }
   }
 
@@ -119,7 +105,7 @@ const AddProductVariant = () => {
       <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <TextField
-            onChange={onChangeProductName}
+            onChange={onChangeVariantName}
             id="productName"
             label="Tên biến thể"
             variant="outlined"
@@ -127,8 +113,27 @@ const AddProductVariant = () => {
           />
         </Grid>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <Typography htmlFor="uncontrolled-native">Danh mục</Typography>
-          <FormControl fullWidth></FormControl>
+          <FormControl fullWidth>
+            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+              Màu sắc
+            </InputLabel>
+            <NativeSelect
+              onChange={onChangeColorVariant}
+              inputProps={{
+                name: 'Màu sắc',
+                id: 'uncontrolled-native',
+              }}
+            >
+              <option value="Black">Đen (Black)</option>
+              <option value="White">Trắng (White)</option>
+              <option value="Pink">Hồng (Pink)</option>
+              <option value="Space Gray">Space Gray</option>
+              <option value="Silver">Silver</option>
+              <option value="Gold">Gold</option>
+              <option value="Midnight Green">Midnight Green</option>
+              <option value="Blue">Xanh (Blue)</option>
+            </NativeSelect>
+          </FormControl>
         </Grid>
       </Grid>
 
@@ -144,29 +149,39 @@ const AddProductVariant = () => {
           )}
         </Grid>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <Typography htmlFor="uncontrolled-native">Nhãn hiệu</Typography>
-          <FormControl fullWidth></FormControl>
+          <FormControl fullWidth>
+            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+              Dung lượng
+            </InputLabel>
+            <NativeSelect
+              onChange={onChangeCapacityVariant}
+              inputProps={{
+                name: 'Dung lượng',
+                id: 'uncontrolled-native',
+              }}
+            >
+              <option value="64GB">64GB</option>
+              <option value="128GB">128GB</option>
+              <option value="256GB">256GB</option>
+              <option value="512GB">512GB</option>
+            </NativeSelect>
+          </FormControl>
         </Grid>
       </Grid>
+
       <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
-        <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}></Grid>
-      </Grid>
-      <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
-        <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <CKEditor
-            config={{
-              extraPlugins: [uploadPlugin],
-            }}
-            editor={ClassicEditor}
-            data={editorData}
-            onChange={handleEditorChange}
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <TextField
+            onChange={onChangePriceVariant}
+            id="variantName"
+            label="Giá tiền"
+            type="number"
+            variant="outlined"
+            fullWidth
           />
-          {/* <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 0 } }}>
-            <Typography sx={{ mt: 3 }}>Nội dung chi tiết hiển thị:</Typography>
-            <div dangerouslySetInnerHTML={{ __html: editorData }} />
-          </Grid> */}
         </Grid>
       </Grid>
+
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <Button onClick={handleAddProduct} variant="contained" color="primary">
