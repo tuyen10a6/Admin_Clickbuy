@@ -3,7 +3,6 @@ import { Box, Typography, Grid, TextField, Button } from '@mui/material'
 import { NativeSelect } from '@mui/material'
 import { FormControl } from '@mui/material'
 import axios from 'axios'
-import imageDefault from './../../../../src/assets/images/default-product-img.jpg'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
@@ -15,7 +14,6 @@ const UpdateProduct = () => {
   const [brand, setBrand] = useState([])
   const [image, setImage] = useState(null)
   const [imageData, setImageData] = useState('')
-  const [name, setName] = useState('')
   const [editorData, setEditorData] = useState('')
   const [product, setProduct] = useState({
     ProductID: '',

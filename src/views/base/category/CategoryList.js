@@ -74,14 +74,6 @@ export default function CategoryList() {
     setPage(0)
   }
 
-  function formatDate(date) {
-    const d = new Date(date)
-    const day = d.getDate().toString().padStart(2, '0')
-    const month = (d.getMonth() + 1).toString().padStart(2, '0')
-    const year = d.getFullYear().toString()
-    return `${day}/${month}/${year}`
-  }
-
   const handleAddProduct = () => {
     navigate('add')
   }
@@ -150,7 +142,10 @@ export default function CategoryList() {
                       <img style={{ width: '110px' }} src={`${URL_IMAGE}${row.CategoryImage}`} />
                     </TableCell>
                     <TableCell style={{ textAlign: 'center' }}>
-                      <Link style={{ marginRight: '10px' }} to={`/product/update/${row.ProductID}`}>
+                      <Link
+                        style={{ marginRight: '10px' }}
+                        to={`/category/update/${row.CategoryID}`}
+                      >
                         <EditIcon />
                       </Link>
                       <DeleteOutlinedIcon onClick={() => handleDeleteProduct(row.ProductID)} />

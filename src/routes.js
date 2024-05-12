@@ -22,6 +22,10 @@ const AddProduct = isAuthenticated
   ? React.lazy(() => import('./views/base/product/Addproduct'))
   : () => <Navigate to="/" />
 
+const AddCategory = isAuthenticated
+  ? React.lazy(() => import('./views/base/category/AddCategory'))
+  : () => <Navigate to="/" />
+
 const UpdateProduct = isAuthenticated
   ? React.lazy(() => import('./views/base/product/UpdateProduct'))
   : () => <Navigate to="/" />
@@ -47,6 +51,7 @@ const routes = [
   { path: 'product/variant/update/:id', name: 'ProductVariant', element: ProductVariantUpdate },
   { path: 'product/variant/add/:id', name: 'ProductVariant', element: ProductVariantAdd },
   { path: '/category', name: 'Category', element: Category },
+  { path: '/category/add', name: 'Category', element: AddCategory },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]
