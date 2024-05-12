@@ -118,7 +118,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Loại sản phẩm',
-        to: '/buttons/dropdowns',
+        to: '/category',
       },
     ],
   },

@@ -20,6 +20,7 @@ export default function ProductVariant() {
   const [variant, setVariant] = useState([])
   const API_URL = process.env.REACT_APP_API_URL
   const APP_URL_IMAGE = process.env.REACT_APP_API_IMAGE
+  const token = localStorage.getItem('token')
   const navigate = useNavigate()
   useEffect(() => {
     axios.get(`${API_URL}/api/variant/variantByProduct?id=${id}`).then(async (response) => {
@@ -37,6 +38,30 @@ export default function ProductVariant() {
   }
   const handleUpdateVariant = (id) => {
     navigate(`/product/variant/update/${id}`)
+  }
+
+  const handleDeleteProductVariant = async (id) => {
+    try {
+      axios
+        .delete(`${API_URL}/api/variant/delete?id=${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            const del = variant.filter((item) => id !== item.id)
+            setVariant(del)
+            alert('Xoá biến thể sản phẩm thành công')
+            window.location.reload()
+            console.log(res)
+          } else {
+            console.error('error:', res)
+          }
+        })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -75,7 +100,7 @@ export default function ProductVariant() {
                 </TableCell>
                 <TableCell align="center"> {formatNumber(row.PRICE)} VNĐ</TableCell>
                 <TableCell align="center">{row.COLOR}</TableCell>
-                <TableCell align="center">{row.Capacity} GB</TableCell>
+                <TableCell align="center">{row.Capacity}</TableCell>
                 <TableCell align="center">
                   <img style={{ width: '130px' }} src={`${APP_URL_IMAGE}${row.ImageVariant}`} />
                 </TableCell>
@@ -89,7 +114,11 @@ export default function ProductVariant() {
                     Sửa
                   </Button>
                   <hr />
-                  <Button variant="contained" startIcon={<DeleteOutlineIcon />}>
+                  <Button
+                    onClick={() => handleDeleteProductVariant(row.VARRIANTID)}
+                    variant="contained"
+                    startIcon={<DeleteOutlineIcon />}
+                  >
                     Xoá
                   </Button>
                 </TableCell>

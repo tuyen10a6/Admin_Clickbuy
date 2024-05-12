@@ -14,7 +14,7 @@ const AddProductVariant = () => {
   const [image, setImage] = useState(null)
   const [imageData, setImageData] = useState('')
   const [name, setName] = useState('')
-  const [color, setColor] = useState('Đen')
+  const [color, setColor] = useState('Black')
   const [capacity, setCapacity] = useState('64GB')
   const [price, setPrice] = useState('')
 

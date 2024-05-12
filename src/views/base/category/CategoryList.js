@@ -17,15 +17,9 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 
 const columns = [
-  { id: 'name', label: 'Tên sản phẩm', minWidth: 200, align: 'center' },
-  { id: 'categories', label: 'Danh mục', minWidth: 100, align: 'center' },
-  {
-    id: 'brand',
-    label: 'Thương hiệu',
-    minWidth: 170,
-    align: 'center',
-    format: (value) => value.toLocaleString('en-US'),
-  },
+  { id: 'name', label: 'Tên danh mục', minWidth: 200, align: 'center' },
+  { id: 'priority', label: 'Độ ưu tiên', minWidth: 130, align: 'center' },
+
   {
     id: 'image',
     label: 'Hình ảnh',
@@ -33,13 +27,7 @@ const columns = [
     align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   },
-  {
-    id: 'date_create',
-    label: 'Ngày tạo',
-    minWidth: 170,
-    align: 'center',
-    format: (value) => value.toFixed(2),
-  },
+
   {
     id: 'update',
     label: 'Thao tác',
@@ -49,7 +37,7 @@ const columns = [
   },
 ]
 
-export default function ProductList() {
+export default function CategoryList() {
   const API_URL = process.env.REACT_APP_API_URL
   const URL_IMAGE = process.env.REACT_APP_API_IMAGE
 
@@ -57,8 +45,6 @@ export default function ProductList() {
   const navigate = useNavigate()
 
   const [category, setCategory] = useState([])
-  const [brand, setBrand] = useState([])
-  const [product, setProduct] = useState([])
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -66,39 +52,14 @@ export default function ProductList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/brand/getAll`)
-
-        setBrand(response.data.data.data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
         const response = await axios.get(`${API_URL}/api/category/getAll`)
         setCategory(response.data.response.data)
+        console.log('response category:', response.data.response.data)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
     }
 
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/product/getAll`)
-        setProduct(response.data.data.data)
-      } catch (error) {
-        console.log('Error fetching data:', error)
-      }
-    }
     fetchData().finally(() => {
       setLoading(true)
     })
@@ -172,26 +133,21 @@ export default function ProductList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {product.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.ProductID}>
+                {category.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.CategoryID}>
+                    <TableCell style={{ textAlign: 'center' }}>{row.CategoryName}</TableCell>
                     <TableCell style={{ textAlign: 'center' }}>
-                      <Link
-                        to={`/product/variant/${row.ProductID}`}
-                        style={{ textDecoration: 'none' }}
-                      >
-                        {row.ProductName}
-                      </Link>
+                      {row.Priority === 1 ? (
+                        <Typography>Cao</Typography>
+                      ) : row.Priority === 2 ? (
+                        <Typography>Trung bình</Typography>
+                      ) : (
+                        <Typography>Thấp</Typography>
+                      )}
                     </TableCell>
 
                     <TableCell style={{ textAlign: 'center' }}>
-                      {row.categories.CategoryName}
-                    </TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>{row.brands.BrandName}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>
-                      <img style={{ width: '130px' }} src={`${URL_IMAGE}${row.ImageURL}`} />
-                    </TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>
-                      {formatDate(row.DateCreated)}
+                      <img style={{ width: '110px' }} src={`${URL_IMAGE}${row.CategoryImage}`} />
                     </TableCell>
                     <TableCell style={{ textAlign: 'center' }}>
                       <Link style={{ marginRight: '10px' }} to={`/product/update/${row.ProductID}`}>
@@ -207,7 +163,7 @@ export default function ProductList() {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={product.length}
+            count={category.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

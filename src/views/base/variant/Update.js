@@ -20,6 +20,7 @@ const UpdateProductVariant = () => {
     PRICE: '',
     ImageVariant: '',
     ProductVariantSL: '',
+    ProductID: '',
   })
 
   const token = localStorage.getItem('token')
@@ -85,28 +86,21 @@ const UpdateProductVariant = () => {
     console.log(event.target.value)
   }
 
-  const onChangeQuantityVariant = (event) => {
-    setProductVariant({
-      ...productVariant,
-      ProductVariantSL: event.target.value,
-    })
-    console.log(event.target.value)
-  }
-
   const formData = new FormData()
 
   formData.append('id', id)
-  formData.append('VARRIANNAME', productVariant.VariantName)
+  formData.append('VARRIANNAME', productVariant.VARRIANNAME)
   formData.append('image', imageData)
-  formData.append('COLOR', productVariant.Color)
+  formData.append('COLOR', productVariant.COLOR)
   formData.append('Capacity', productVariant.Capacity)
-  formData.append('ProductVariantSL', productVariant.ProductVariantQuantity)
+  formData.append('PRICE', productVariant.PRICE)
 
-  const handleUpdateProduct = async () => {
+  const handleUpdateProduct = async (id) => {
     try {
       const response = await axios.post(`${API_URL}/api/variant/update`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
+
       alert('Cập nhật dữ liệu thành công')
       navigate(`/product/variant/${id}`)
     } catch (error) {
@@ -197,6 +191,7 @@ const UpdateProductVariant = () => {
               <option value="Gold">Gold</option>
               <option value="Midnight Green">Midnight Green</option>
               <option value="Blue">Xanh (Blue)</option>
+              <option value="Natural">Titan tự nhiên (Natural)</option>
             </NativeSelect>
           </FormControl>
         </Grid>
@@ -216,7 +211,11 @@ const UpdateProductVariant = () => {
 
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <Button onClick={handleUpdateProduct} variant="contained" color="primary">
+          <Button
+            onClick={() => handleUpdateProduct(productVariant.ProductID)}
+            variant="contained"
+            color="primary"
+          >
             Cập nhật
           </Button>
         </Grid>
