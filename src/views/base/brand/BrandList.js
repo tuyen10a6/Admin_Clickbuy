@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import axios from 'axios'
-import { Button, Container, Typography } from '@mui/material'
+import { Button, Container } from '@mui/material'
 import ButtonCreate from '@mui/icons-material/AddCircle'
 import Box from '@mui/material/Box'
 import { CircularProgress } from '@mui/material'
@@ -17,15 +17,20 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 
 const columns = [
-  { id: 'name', label: 'Tên danh mục', minWidth: 200, align: 'center' },
-  { id: 'priority', label: 'Độ ưu tiên', minWidth: 130, align: 'center' },
+  { id: 'name', label: 'Tên hãng', minWidth: 200, align: 'center' },
+  { id: 'country', label: 'Địa chỉ', minWidth: 250, align: 'center' },
 
   {
-    id: 'image',
-    label: 'Hình ảnh',
+    id: 'website',
+    label: 'Địa chỉ website',
     minWidth: 200,
     align: 'center',
-    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'phone',
+    label: 'Số điện thoại',
+    minWidth: 200,
+    align: 'center',
   },
 
   {
@@ -37,14 +42,13 @@ const columns = [
   },
 ]
 
-export default function CategoryList() {
+export default function BrandList() {
   const API_URL = process.env.REACT_APP_API_URL
-  const URL_IMAGE = process.env.REACT_APP_API_IMAGE
 
   const token = localStorage.getItem('token')
   const navigate = useNavigate()
 
-  const [category, setCategory] = useState([])
+  const [brand, setBrand] = useState([])
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -52,9 +56,9 @@ export default function CategoryList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/category/getAll`)
-        setCategory(response.data.response.data)
-        console.log('response category:', response.data.response.data)
+        const response = await axios.get(`${API_URL}/api/brand/getAll`)
+        setBrand(response.data.data.data)
+        console.log('response brand:', response.data.data.data)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -74,11 +78,11 @@ export default function CategoryList() {
     setPage(0)
   }
 
-  const handleAddProduct = () => {
+  const handleAddBrand = () => {
     navigate('add')
   }
 
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteBrand = async (id) => {
     try {
       await axios
         .delete(`${API_URL}/api/product/delete?id=${id}`, {
@@ -87,7 +91,7 @@ export default function CategoryList() {
           },
         })
         .then(() => {
-          alert('Xoá sản phẩm thành công')
+          alert('Xoá hãng sản phẩm thành công')
           window.location.reload()
         })
     } catch (error) {
@@ -101,7 +105,7 @@ export default function CategoryList() {
         <Paper style={{ width: '100%', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}>
           <Box>
             <Button
-              onClick={handleAddProduct}
+              onClick={handleAddBrand}
               sx={{ m: 2 }}
               variant="contained"
               endIcon={<ButtonCreate />}
@@ -125,29 +129,17 @@ export default function CategoryList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {category.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.CategoryID}>
-                    <TableCell style={{ textAlign: 'center' }}>{row.CategoryName}</TableCell>
+                {brand.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.BrandID}>
+                    <TableCell style={{ textAlign: 'center' }}>{row.BrandName}</TableCell>
+                    <TableCell style={{ textAlign: 'center' }}>{row.Country}</TableCell>
+                    <TableCell style={{ textAlign: 'center' }}>{row.Website}</TableCell>
+                    <TableCell style={{ textAlign: 'center' }}>{row.ContactPhone}</TableCell>
                     <TableCell style={{ textAlign: 'center' }}>
-                      {row.Priority === 1 ? (
-                        <Typography>Cao</Typography>
-                      ) : row.Priority === 2 ? (
-                        <Typography>Trung bình</Typography>
-                      ) : (
-                        <Typography>Thấp</Typography>
-                      )}
-                    </TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>
-                      <img style={{ width: '110px' }} src={`${URL_IMAGE}${row.CategoryImage}`} />
-                    </TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>
-                      <Link
-                        style={{ marginRight: '10px' }}
-                        to={`/category/update/${row.CategoryID}`}
-                      >
+                      <Link style={{ marginRight: '10px' }} to={`/brand/update/${row.BrandID}`}>
                         <EditIcon />
                       </Link>
-                      <DeleteOutlinedIcon onClick={() => handleDeleteProduct(row.ProductID)} />
+                      <DeleteOutlinedIcon onClick={() => handleDeleteBrand(row.ProductID)} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -157,7 +149,7 @@ export default function CategoryList() {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={category.length}
+            count={brand.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

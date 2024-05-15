@@ -68,7 +68,7 @@ const UpdateCategory = () => {
 
   const formData = new FormData()
 
-  formData.append('CategoryName', id)
+  formData.append('CategoryID', id)
   formData.append('CategoryName', category.CategoryName)
   formData.append('image', imageData)
   formData.append('Priority', category.Priority)
@@ -101,7 +101,7 @@ const UpdateCategory = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
-                Cập nhật biến thể sản phẩm
+                Cập nhật danh mục
               </Typography>
             </Box>
           </Box>

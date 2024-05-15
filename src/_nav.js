@@ -111,7 +111,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Loại sản phẩm',
+    name: 'QL các danh mục',
     to: '/buttons',
     icon: <CIcon icon={cilPlaylistAdd} customClassName="nav-icon" />,
     items: [
@@ -119,6 +119,11 @@ const _nav = [
         component: CNavItem,
         name: 'Loại sản phẩm',
         to: '/category',
+      },
+      {
+        component: CNavItem,
+        name: 'Hãng sản phẩm',
+        to: '/brand',
       },
     ],
   },
