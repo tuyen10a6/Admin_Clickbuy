@@ -3,14 +3,9 @@ import CIcon from '@coreui/icons-react'
 
 import {
   cilBell,
-  cilCalculator,
   cilChartPie,
-  cilCursor,
   cilDescription,
-  cilDrop,
   cilNotes,
-  cilPencil,
-  cilPuzzle,
   cilSpeedometer,
   cilStar,
   cilScreenSmartphone,
@@ -47,16 +42,16 @@ const _nav = [
         to: '/product',
       },
 
-      {
-        component: CNavItem,
-        name: 'Thuộc tính sản phẩm',
-        to: '/base/cards',
-      },
-      {
-        component: CNavItem,
-        name: 'Đánh giá sản phẩm',
-        to: '/base/carousels',
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Thuộc tính sản phẩm',
+      //   to: '/base/cards',
+      // },
+      // {
+      //   component: CNavItem,
+      //   name: 'Đánh giá sản phẩm',
+      //   to: '/base/carousels',
+      // },
       // {
       //   component: CNavItem,
       //   name: 'Collapse',
@@ -124,6 +119,11 @@ const _nav = [
         component: CNavItem,
         name: 'Hãng sản phẩm',
         to: '/brand',
+      },
+      {
+        component: CNavItem,
+        name: 'Quản lý kho',
+        to: '/warehouse',
       },
     ],
   },
