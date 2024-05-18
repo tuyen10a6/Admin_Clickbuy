@@ -27,6 +27,14 @@ const WareHouse = isAuthenticated
   ? React.lazy(() => import('./views/base/warehouse/WareHouseList'))
   : () => <Navigate to="/" />
 
+const WareHouseUpdate = isAuthenticated
+  ? React.lazy(() => import('./views/base/warehouse/Update'))
+  : () => <Navigate to="/" />
+
+const WareHouseDetails = isAuthenticated
+  ? React.lazy(() => import('./views/base/wareHouseDetails/WareHouseDetailsList'))
+  : () => <Navigate to="/" />
+
 const UpdateBrand = isAuthenticated
   ? React.lazy(() => import('./views/base/brand/UpdateBrand'))
   : () => <Navigate to="/" />
@@ -73,6 +81,8 @@ const routes = [
   { path: '/brand', name: 'Brand', element: Brand },
   { path: '/brand/update/:id', name: 'Brand', element: UpdateBrand },
   { path: '/warehouse', name: 'WareHouse', element: WareHouse },
+  { path: '/warehouse/update/:id', name: 'WareHouse', element: WareHouseUpdate },
+  { path: '/warehouseDetails', name: 'WareHouse', element: WareHouseDetails },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]

@@ -6,12 +6,9 @@ import axios from 'axios'
 
 import { useNavigate, useParams } from 'react-router-dom'
 
-const UpdateProductVariant = () => {
+const UpdateWareHouse = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-
-  const [image, setImage] = useState(null)
-  const [imageData, setImageData] = useState('')
 
   const [wareHouse, setWareHouse] = useState({
     ten_kho: '',
@@ -45,6 +42,13 @@ const UpdateProductVariant = () => {
     console.log(event.target.value)
   }
 
+  const onChangeWareHouseAddress = (event) => {
+    event.preventDefault()
+    setWareHouse({
+      ...wareHouse,
+      dia_chi: event.target.value,
+    })
+  }
   const onChangeWareAnother = (event) => {
     event.preventDefault()
     setWareHouse({
@@ -67,16 +71,17 @@ const UpdateProductVariant = () => {
   formData.append('id', id)
   formData.append('ten_kho', wareHouse.ten_kho)
   formData.append('ten_kho2', wareHouse.ten_kho2)
+  formData.append('dia_chi', wareHouse.dia_chi)
   formData.append('status', wareHouse.status)
 
-  const handleUpdateProduct = async (id) => {
+  const handleUpdateWareHouse = async (id) => {
     try {
-      const response = await axios.post(`${API_URL}/api/variant/update`, formData, {
+      const response = await axios.post(`${API_URL}/api/warehouse/update`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
       alert('Cập nhật dữ liệu thành công')
-      navigate(`/product/variant/${id}`)
+      navigate(`/warehouse`)
     } catch (error) {
       console.log(error)
     }
@@ -97,7 +102,7 @@ const UpdateProductVariant = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
-                Cập nhật biến thể sản phẩm
+                Cập nhật danh mục kho
               </Typography>
             </Box>
           </Box>
@@ -106,87 +111,57 @@ const UpdateProductVariant = () => {
       <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <TextField
-            onChange={onChangeVariantName}
-            id="variantName"
+            placeholder="Tên kho"
+            onChange={onChangeWareHouseName}
+            id="name"
             variant="outlined"
             fullWidth
-            value={productVariant.VARRIANNAME}
+            value={wareHouse.ten_kho}
           />
         </Grid>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <Typography sx={{ marginTop: '-5px' }} htmlFor="uncontrolled-native">
-            Dung lượng
-          </Typography>
-          <FormControl fullWidth>
-            <NativeSelect
-              value={productVariant.Capacity}
-              onChange={onChangeCapacityVariant}
-              inputProps={{
-                name: 'Dung lượng',
-                id: 'uncontrolled-native',
-              }}
-            >
-              <option value="64GB">64GB</option>
-              <option value="128GB">128GB</option>
-              <option value="256GB">256GB</option>
-              <option value="512GB">512GB</option>
-            </NativeSelect>
-          </FormControl>
-        </Grid>
-      </Grid>
-
-      <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
-        <Grid item xs={3} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <TextField type="file" id="image" onChange={onChangeImage} />
-        </Grid>
-        <Grid item xs={3} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          {image ? (
-            <img style={{ borderRadius: '8px' }} alt="ok" width="130px" src={image} />
-          ) : (
-            <img width="140px" src={`${URL_APP}${productVariant.ImageVariant}`} />
-          )}
-        </Grid>
-        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-          <Typography htmlFor="uncontrolled-native">Màu sắc</Typography>
-          <FormControl fullWidth>
-            <NativeSelect
-              value={productVariant.COLOR}
-              onChange={onChangeColorVariant}
-              inputProps={{
-                name: 'Màu sắc',
-                id: 'uncontrolled-native',
-              }}
-            >
-              <option value="Black">Đen (Black)</option>
-              <option value="White">Trắng (White)</option>
-              <option value="Pink">Hồng (Pink)</option>
-              <option value="Space Gray">Space Gray</option>
-              <option value="Silver">Silver</option>
-              <option value="Gold">Gold</option>
-              <option value="Midnight Green">Midnight Green</option>
-              <option value="Blue">Xanh (Blue)</option>
-              <option value="Natural">Titan tự nhiên (Natural)</option>
-            </NativeSelect>
-          </FormControl>
-        </Grid>
-      </Grid>
-      <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
-        <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <TextField
-            onChange={onChangePriceVariant}
-            id="note"
-            placeholder="Giá tiền"
+            placeholder="Tên khác"
+            onChange={onChangeWareAnother}
+            id="name-other"
             variant="outlined"
             fullWidth
-            value={productVariant.PRICE}
+            value={wareHouse.ten_kho2}
           />
         </Grid>
       </Grid>
-
+      <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <TextField
+            placeholder="Địa chỉ"
+            onChange={onChangeWareHouseAddress}
+            id="address"
+            variant="outlined"
+            fullWidth
+            value={wareHouse.dia_chi}
+          />
+        </Grid>
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <FormControl fullWidth>
+            <NativeSelect
+              placeholder="Trạng thái"
+              value={wareHouse.status}
+              onChange={onChangeWareHouseStatus}
+              inputProps={{
+                name: 'Trạng thái',
+                id: 'uncontrolled-native',
+              }}
+            >
+              <option value="1">Hoạt động</option>
+              <option value="0">Không hoạt động</option>
+            </NativeSelect>
+          </FormControl>
+        </Grid>
+      </Grid>
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <Button
-            onClick={() => handleUpdateProduct(productVariant.ProductID)}
+            onClick={() => handleUpdateWareHouse(wareHouse.id)}
             variant="contained"
             color="primary"
           >
@@ -198,4 +173,4 @@ const UpdateProductVariant = () => {
   )
 }
 
-export default UpdateProductVariant
+export default UpdateWareHouse

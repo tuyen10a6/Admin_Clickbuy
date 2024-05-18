@@ -125,6 +125,11 @@ const _nav = [
         name: 'Quản lý kho',
         to: '/warehouse',
       },
+      {
+        component: CNavItem,
+        name: 'Quản lý chi tiết kho',
+        to: '/warehouseDetails',
+      },
     ],
   },
   {
