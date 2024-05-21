@@ -23,6 +23,10 @@ const Brand = isAuthenticated
   ? React.lazy(() => import('./views/base/brand/BrandList'))
   : () => <Navigate to="/" />
 
+const AddWareHouse = isAuthenticated
+  ? React.lazy(() => import('./views/base/warehouse/Add'))
+  : () => <Navigate to="/" />
+
 const WareHouse = isAuthenticated
   ? React.lazy(() => import('./views/base/warehouse/WareHouseList'))
   : () => <Navigate to="/" />
@@ -33,6 +37,14 @@ const WareHouseUpdate = isAuthenticated
 
 const WareHouseDetails = isAuthenticated
   ? React.lazy(() => import('./views/base/wareHouseDetails/WareHouseDetailsList'))
+  : () => <Navigate to="/" />
+
+const WareHouseDetailsAdd = isAuthenticated
+  ? React.lazy(() => import('./views/base/wareHouseDetails/Add'))
+  : () => <Navigate to="/" />
+
+const WareHouseDetailsUpdate = isAuthenticated
+  ? React.lazy(() => import('./views/base/wareHouseDetails/Update'))
   : () => <Navigate to="/" />
 
 const UpdateBrand = isAuthenticated
@@ -81,8 +93,11 @@ const routes = [
   { path: '/brand', name: 'Brand', element: Brand },
   { path: '/brand/update/:id', name: 'Brand', element: UpdateBrand },
   { path: '/warehouse', name: 'WareHouse', element: WareHouse },
+  { path: '/warehouse/add', name: 'WareHouse', element: AddWareHouse },
   { path: '/warehouse/update/:id', name: 'WareHouse', element: WareHouseUpdate },
-  { path: '/warehouseDetails', name: 'WareHouse', element: WareHouseDetails },
+  { path: '/warehouseDetails', name: 'WareHouseDetails', element: WareHouseDetails },
+  { path: '/warehouseDetails/add', name: 'WareHouseDetails', element: WareHouseDetailsAdd },
+  { path: '/warehouseDetail/update/:id', name: 'WareHouseDetail', element: WareHouseDetailsUpdate },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]

@@ -8,21 +8,13 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import axios from 'axios'
-import {
-  Button,
-  Container,
-  InputLabel,
-  MenuItem,
-  NativeSelect,
-  Select,
-  Typography,
-} from '@mui/material'
+import { Button, Container, MenuItem, Select, Typography } from '@mui/material'
 import ButtonCreate from '@mui/icons-material/AddCircle'
 import Box from '@mui/material/Box'
 import { CircularProgress } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
-import { FormControl } from 'react-bootstrap'
+
 const columns = [
   // { id: 'id', label: 'ID', minWidth: 100, align: 'center' },
   { id: 'id', label: 'ID', minWidth: 100, align: 'center' },
@@ -91,6 +83,8 @@ export default function WareHouseDetails() {
       const response = await axios.get(
         `${API_URL}/api/warehouseDetails/allWareHouseDetailByID?id=${param}`,
       )
+
+      console.log('search data:', response.data.data)
       setWareHouseDetail(response.data.data)
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -197,7 +191,10 @@ export default function WareHouseDetails() {
                         )}
                       </TableCell>
                       <TableCell style={{ textAlign: 'center' }}>
-                        <Link style={{ marginRight: '10px' }} to={`/warehouse/update/${row.id}`}>
+                        <Link
+                          style={{ marginRight: '10px' }}
+                          to={`/warehouseDetail/update/${row.id}`}
+                        >
                           <EditIcon />
                         </Link>
                       </TableCell>
