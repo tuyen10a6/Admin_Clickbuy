@@ -132,8 +132,8 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Quản lý hoá đơn nhập',
-        to: '/warehouseDetails',
+        name: 'Quản lý nhà cung cấp',
+        to: '/supplier',
       },
     ],
   },

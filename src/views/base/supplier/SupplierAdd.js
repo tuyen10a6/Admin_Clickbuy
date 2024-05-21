@@ -5,31 +5,40 @@ import { FormControl } from '@mui/material'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-const AddWareHouse = () => {
+const AddSupplier = () => {
   const navigate = useNavigate()
 
   const [name, setName] = useState('')
-  const [nameOther, setNameOther] = useState('')
   const [address, setAddress] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const [status, setStatus] = useState('1')
 
   const token = localStorage.getItem('token')
   const API_URL = process.env.REACT_APP_API_URL
 
-  const onChangeWareHouseName = (event) => {
+  const onChangeSupplierName = (event) => {
     event.preventDefault()
     setName(event.target.value)
     console.log(event.target.value)
   }
 
-  const onChangeWareHouseNameAnother = (event) => {
-    event.preventDefault()
-    setNameOther(event.target.value)
-  }
-
-  const onChangeWareHouseAddress = (event) => {
+  const onChangeSupplierAddress = (event) => {
     event.preventDefault()
     setAddress(event.target.value)
+    console.log(event.target.value)
+  }
+
+  const onChangeSupplierPhone = (event) => {
+    event.preventDefault()
+    setPhone(event.target.value)
+    console.log(event.target.value)
+  }
+
+  const onChangeSupplierEmail = (event) => {
+    event.preventDefault()
+    setEmail(event.target.value)
+    console.log(event.target.value)
   }
 
   const onChangeWareHouseStatus = (event) => {
@@ -39,18 +48,19 @@ const AddWareHouse = () => {
 
   const formData = new FormData()
 
-  formData.append('ten_kho', name)
-  formData.append('ten_kho2', nameOther)
-  formData.append('dia_chi', address)
+  formData.append('name', name)
+  formData.append('email', email)
+  formData.append('address', address)
+  formData.append('phone', phone)
   formData.append('status', status)
   const handleAddWareHouse = async () => {
     try {
-      const response = await axios.post(`${API_URL}/api/warehouse/store`, formData, {
+      const response = await axios.post(`${API_URL}/api/supplier/store`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      alert('Thêm kho hàng thành công!')
-      navigate('/warehouse')
+      alert('Thêm nhà cung cấp thành công!')
+      navigate('/supplier')
     } catch (error) {
       console.log(error)
     }
@@ -71,7 +81,7 @@ const AddWareHouse = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
-                Tạo kho hàng
+                Tạo nhà cung cấp
               </Typography>
             </Box>
           </Box>
@@ -80,18 +90,39 @@ const AddWareHouse = () => {
       <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <TextField
-            onChange={onChangeWareHouseName}
-            id="wareHouseName"
-            label="Tên kho hàng"
+            onChange={onChangeSupplierName}
+            id="supplier-name"
+            label="Tên nhà cung cấp"
             variant="outlined"
             fullWidth
           />
         </Grid>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <TextField
-            onChange={onChangeWareHouseNameAnother}
-            id="wareHouseNameAnother"
-            label="Tên khác"
+            onChange={onChangeSupplierAddress}
+            id="supplier-address"
+            label="Địa chỉ"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+      <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <TextField
+            onChange={onChangeSupplierPhone}
+            id="supplier-phone"
+            type="number"
+            label="Số điện thoại"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <TextField
+            onChange={onChangeSupplierEmail}
+            id="supplier-email"
+            label="Email"
             variant="outlined"
             fullWidth
           />
@@ -123,4 +154,4 @@ const AddWareHouse = () => {
   )
 }
 
-export default AddWareHouse
+export default AddSupplier

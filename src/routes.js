@@ -31,6 +31,18 @@ const WareHouse = isAuthenticated
   ? React.lazy(() => import('./views/base/warehouse/WareHouseList'))
   : () => <Navigate to="/" />
 
+const Supplier = isAuthenticated
+  ? React.lazy(() => import('./views/base/supplier/SupplierList'))
+  : () => <Navigate to="/" />
+
+const AddSupplier = isAuthenticated
+  ? React.lazy(() => import('./views/base/supplier/SupplierAdd'))
+  : () => <Navigate to="/" />
+
+const SupplierUpdate = isAuthenticated
+  ? React.lazy(() => import('./views/base/supplier/SupplierUpdate'))
+  : () => <Navigate to="/" />
+
 const WareHouseUpdate = isAuthenticated
   ? React.lazy(() => import('./views/base/warehouse/Update'))
   : () => <Navigate to="/" />
@@ -98,6 +110,9 @@ const routes = [
   { path: '/warehouseDetails', name: 'WareHouseDetails', element: WareHouseDetails },
   { path: '/warehouseDetails/add', name: 'WareHouseDetails', element: WareHouseDetailsAdd },
   { path: '/warehouseDetail/update/:id', name: 'WareHouseDetail', element: WareHouseDetailsUpdate },
+  { path: '/supplier', name: 'Supplier', element: Supplier },
+  { path: '/supplier/add', name: 'Supplier', element: AddSupplier },
+  { path: '/supplier/update/:id', name: 'Supplier', element: SupplierUpdate },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]
