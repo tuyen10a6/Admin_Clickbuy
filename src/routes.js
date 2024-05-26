@@ -35,6 +35,21 @@ const Supplier = isAuthenticated
   ? React.lazy(() => import('./views/base/supplier/SupplierList'))
   : () => <Navigate to="/" />
 
+const ImportInvoice = isAuthenticated
+  ? React.lazy(() => import('./views/base/importInvoice/ImportInvoiceList'))
+  : () => <Navigate to="/" />
+
+const AddImportInvoice = isAuthenticated
+  ? React.lazy(() => import('./views/base/importInvoice/ImportInvoiceAdd'))
+  : () => <Navigate to="/" />
+
+const ImportInvoiceDetails = isAuthenticated
+  ? React.lazy(() => import('./views/base/importInvoiceDetails/ImportInvoiceDetailList'))
+  : () => <Navigate to="/" />
+
+const AddImportInvoiceDetails = isAuthenticated
+  ? React.lazy(() => import('./views/base/importInvoiceDetails/AddImportInvoiceDetail'))
+  : () => <Navigate to="/" />
 const AddSupplier = isAuthenticated
   ? React.lazy(() => import('./views/base/supplier/SupplierAdd'))
   : () => <Navigate to="/" />
@@ -113,6 +128,11 @@ const routes = [
   { path: '/supplier', name: 'Supplier', element: Supplier },
   { path: '/supplier/add', name: 'Supplier', element: AddSupplier },
   { path: '/supplier/update/:id', name: 'Supplier', element: SupplierUpdate },
+  { path: '/importInvoice', name: 'ImportInvoice', element: ImportInvoice },
+  { path: '/importInvoice/add', name: 'ImportInvoice', element: AddImportInvoice },
+  { path: '/importInvoiceDetail/:id', name: 'ImportInvoice', element: ImportInvoiceDetails },
+  { path: '/importInvoiceDetail/add/:id', name: 'ImportInvoice', element: AddImportInvoiceDetails },
+
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]

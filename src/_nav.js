@@ -139,6 +139,19 @@ const _nav = [
   },
   {
     component: CNavGroup,
+    name: 'QL hoá đơn',
+    to: '/buttons',
+    icon: <CIcon icon={cilPlaylistAdd} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hoá đơn nhập',
+        to: '/importInvoice',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
     name: 'Đơn hàng',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
     items: [
@@ -146,24 +159,6 @@ const _nav = [
         component: CNavItem,
         name: 'Đơn hàng',
         to: '/forms/form-control',
-      },
-    ],
-  },
-  {
-    component: CNavItem,
-    name: 'Thống kê',
-    to: '/charts',
-    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavGroup,
-    name: 'Nhãn hiệu',
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Nhãn hiệu',
-        to: '/icons/brands',
       },
     ],
   },

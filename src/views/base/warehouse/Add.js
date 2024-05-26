@@ -100,6 +100,15 @@ const AddWareHouse = () => {
 
       <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
         <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <TextField
+            onChange={onChangeWareHouseAddress}
+            id="wareHouseAddress"
+            label="Địa chỉ"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <Typography htmlFor="uncontrolled-native">Trạng thái</Typography>
           <FormControl fullWidth>
             <NativeSelect onChange={onChangeWareHouseStatus} id="uncontrolled-native">
