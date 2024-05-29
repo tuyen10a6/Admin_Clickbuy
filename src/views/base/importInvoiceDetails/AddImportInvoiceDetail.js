@@ -8,16 +8,23 @@ const AddImportInvoiceDetail = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const [variant, setVariant] = useState('')
+  const [wareHouse, setWareHouse] = useState('')
   const [quantity, setQuantity] = useState('')
   const [discount, setDiscount] = useState('')
   const [price, setPrice] = useState('')
   const [dataVariant, setDataVariant] = useState([])
+  const [dataWareHouse, setDataWareHouse] = useState([])
 
   const token = localStorage.getItem('token')
   const API_URL = process.env.REACT_APP_API_URL
 
   const onChangeVariant = (event) => {
     setVariant(event.target.value)
+    console.log(event.target.value)
+  }
+
+  const onChangeWareHouse = (event) => {
+    setWareHouse(event.target.value)
     console.log(event.target.value)
   }
 
@@ -50,6 +57,16 @@ const AddImportInvoiceDetail = () => {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/warehouse/getAllWareHouse`)
+        setDataWareHouse(response.data.data)
+      } catch (error) {}
+    }
+    fetchData()
+  }, [])
+
   const formData = new FormData()
 
   formData.append('quantity', quantity)
@@ -57,6 +74,7 @@ const AddImportInvoiceDetail = () => {
   formData.append('variant_id', variant)
   formData.append('discount', discount)
   formData.append('price', price)
+  formData.append('warehouse_id', wareHouse)
   formData.append('status', 1)
   const handleAddImportInvoiceDetail = async () => {
     try {
@@ -139,6 +157,25 @@ const AddImportInvoiceDetail = () => {
             variant="outlined"
             fullWidth
           />
+        </Grid>
+      </Grid>
+      <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <Typography htmlFor="uncontrolled-native">Chọn kho nhập</Typography>
+          <FormControl fullWidth>
+            <NativeSelect onChange={onChangeWareHouse} id="uncontrolled-native">
+              <option selected disabled>
+                Chọn kho nhập
+              </option>
+              {dataWareHouse.map((item) =>
+                item.id ? (
+                  <option key={item.id} value={item.id}>
+                    {item.ten_kho}
+                  </option>
+                ) : null,
+              )}
+            </NativeSelect>
+          </FormControl>
         </Grid>
       </Grid>
 
