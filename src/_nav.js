@@ -164,28 +164,13 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Chức năng khác',
+    name: 'Quản lý khác',
     icon: <CIcon icon={cilMenu} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Quản lý Slide',
-        to: '/notifications/alerts',
-      },
-      {
-        component: CNavItem,
-        name: 'Quản lý khách hàng',
-        to: '/notifications/badges',
-      },
-      {
-        component: CNavItem,
-        name: 'Quản lý nhà cung cấp',
-        to: '/notifications/modals',
-      },
-      {
-        component: CNavItem,
-        name: 'Quản lý hóa đơn nhập',
-        to: '/notifications/toasts',
+        to: '/slide',
       },
     ],
   },

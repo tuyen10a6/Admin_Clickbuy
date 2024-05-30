@@ -39,6 +39,18 @@ const ImportInvoice = isAuthenticated
   ? React.lazy(() => import('./views/base/importInvoice/ImportInvoiceList'))
   : () => <Navigate to="/" />
 
+const Slide = isAuthenticated
+  ? React.lazy(() => import('./views/base/slide/SlideList'))
+  : () => <Navigate to="/" />
+
+const AddSlide = isAuthenticated
+  ? React.lazy(() => import('./views/base/slide/AddSlide'))
+  : () => <Navigate to="/" />
+
+const UpdateSlide = isAuthenticated
+  ? React.lazy(() => import('./views/base/slide/UpdateSlide'))
+  : () => <Navigate to="/" />
+
 const AddImportInvoice = isAuthenticated
   ? React.lazy(() => import('./views/base/importInvoice/ImportInvoiceAdd'))
   : () => <Navigate to="/" />
@@ -132,7 +144,9 @@ const routes = [
   { path: '/importInvoice/add', name: 'ImportInvoice', element: AddImportInvoice },
   { path: '/importInvoiceDetail/:id', name: 'ImportInvoice', element: ImportInvoiceDetails },
   { path: '/importInvoiceDetail/add/:id', name: 'ImportInvoice', element: AddImportInvoiceDetails },
-
+  { path: '/slide', name: 'slide', element: Slide },
+  { path: '/slide/add', name: 'slide', element: AddSlide },
+  { path: '/slide/update/:id', name: 'slide', element: UpdateSlide },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]
