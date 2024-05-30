@@ -172,6 +172,11 @@ const _nav = [
         name: 'Quản lý Slide',
         to: '/slide',
       },
+      {
+        component: CNavItem,
+        name: 'QL Image Sale Home',
+        to: '/imageSaleRightHome',
+      },
     ],
   },
   {

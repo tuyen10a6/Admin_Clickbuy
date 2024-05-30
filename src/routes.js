@@ -51,6 +51,18 @@ const UpdateSlide = isAuthenticated
   ? React.lazy(() => import('./views/base/slide/UpdateSlide'))
   : () => <Navigate to="/" />
 
+const ImageSaleRightHome = isAuthenticated
+  ? React.lazy(() => import('./views/base/imageSaleRightHome/List'))
+  : () => <Navigate to="/" />
+
+const AddImageSaleRightHome = isAuthenticated
+  ? React.lazy(() => import('./views/base/imageSaleRightHome/Store'))
+  : () => <Navigate to="/" />
+
+const UpdateImageSaleRightHome = isAuthenticated
+  ? React.lazy(() => import('./views/base/imageSaleRightHome/Update'))
+  : () => <Navigate to="/" />
+
 const AddImportInvoice = isAuthenticated
   ? React.lazy(() => import('./views/base/importInvoice/ImportInvoiceAdd'))
   : () => <Navigate to="/" />
@@ -147,6 +159,13 @@ const routes = [
   { path: '/slide', name: 'slide', element: Slide },
   { path: '/slide/add', name: 'slide', element: AddSlide },
   { path: '/slide/update/:id', name: 'slide', element: UpdateSlide },
+  { path: '/imageSaleRightHome', name: 'imageSaleRightHome', element: ImageSaleRightHome },
+  { path: '/imageSaleRightHome/store', name: 'imageSaleRightHome', element: AddImageSaleRightHome },
+  {
+    path: '/imageSaleRightHome/update/:id',
+    name: 'imageSaleRightHome',
+    element: UpdateImageSaleRightHome,
+  },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]
