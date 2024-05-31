@@ -84,7 +84,7 @@ export default function ProductVariant() {
               <TableCell align="center">Màu sắc</TableCell>
               <TableCell align="center">Dung lượng</TableCell>
               <TableCell align="center">Hình ảnh</TableCell>
-              <TableCell align="center">Số lượng tồn kho</TableCell>
+
               <TableCell align="center">Thao tác</TableCell>
             </TableRow>
           </TableHead>
@@ -104,7 +104,7 @@ export default function ProductVariant() {
                 <TableCell align="center">
                   <img style={{ width: '130px' }} src={`${APP_URL_IMAGE}${row.ImageVariant}`} />
                 </TableCell>
-                <TableCell align="center">{row.ProductVariantSL}</TableCell>
+
                 <TableCell align="center">
                   <Button
                     onClick={() => handleUpdateVariant(row.VARRIANTID)}
