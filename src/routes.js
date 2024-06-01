@@ -126,6 +126,16 @@ const ProductVariantAdd = isAuthenticated
   ? React.lazy(() => import('./views/base/variant/Add'))
   : () => <Navigate to="/" />
 
+const Customer = isAuthenticated
+  ? React.lazy(() => import('./views/base/customer/List'))
+  : () => <Navigate to="/" />
+
+const Order = isAuthenticated
+  ? React.lazy(() => import('./views/base/order/List'))
+  : () => <Navigate to="/" />
+const UpdateOrder = isAuthenticated
+  ? React.lazy(() => import('./views/base/order/Update'))
+  : () => <Navigate to="/" />
 //Forms
 const FormControl = React.lazy(() => import('./views/forms/form-control/FormControl'))
 
@@ -166,6 +176,9 @@ const routes = [
     name: 'imageSaleRightHome',
     element: UpdateImageSaleRightHome,
   },
+  { path: '/customer', name: 'customer', element: Customer },
+  { path: '/order', name: 'order', element: Order },
+  { path: '/order/update/:id', name: 'order', element: UpdateOrder },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
 ]

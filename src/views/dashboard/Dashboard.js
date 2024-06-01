@@ -4,19 +4,21 @@ import axios from 'axios'
 import CartImage from './../../../src/assets/images/cart/images.png'
 import doanhthu from './../../../src/assets/images/cart/tăng doanh thu.png'
 import review from './../../../src/assets/images/cart/pngtree-set-of-user-icon-user-symbol-profile-vector-outline-people-symbol-png-image_1885497.jpg'
-
 import TopBestProduct from './../../../src/assets/images/cart/download.png'
-
+import './../../scss/style.css'
 const Dashboard = () => {
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
   const [totalOrders, setTotalOrders] = useState(0)
 
+  const API_URL = process.env.REACT_APP_API_URL
+  const IMAGE_URL = process.env.REACT_APP_API_IMAGE
   useEffect(() => {
     axios
-      .get('https://localhost:7014/api/SanPham/ToTalQuantityOrder')
+      .get(`${API_URL}/api/order/count`)
       .then((response) => {
-        const data = response.data
-        setTotalOrders(data.totalOrders)
+        const data = response.data.data
+        console.log('data order', response.data.data)
+        setTotalOrders(data)
       })
       .catch((error) => {
         console.error('Error:', error)
@@ -27,9 +29,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7014/api/SanPham/TotalPriceOrder')
+      .get(`${API_URL}/api/order/totalPrice`)
       .then((response) => {
-        setTotalRevenue(response.data.totalRevenue)
+        console.log('total', response.data.data)
+        setTotalRevenue(response.data.data)
       })
       .catch((error) => {
         console.error('Error:', error)
@@ -40,9 +43,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7014/api/SanPham/GetPriceTotalDate')
+      .get(`${API_URL}/api/order/totalPriceDate`)
       .then((response) => {
-        settotalPriceDay(response.data.totalRevenue)
+        settotalPriceDay(response.data.data)
       })
       .catch((error) => {
         console.error('Error:', error)
@@ -56,9 +59,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios
-      .get('https://localhost:7014/api/SanPham/ToTalReviewAllProduct')
+      .get(`${API_URL}/api/order/totalReview`)
       .then((response) => {
-        setTotalReviewOrder(response.data.toTalReviewOrder)
+        setTotalReviewOrder(response.data.data)
       })
       .catch((error) => {
         console.error('Error:', error)
@@ -66,30 +69,32 @@ const Dashboard = () => {
   }, [])
 
   const [products, setProducts] = useState([])
+
   useEffect(() => {
-    axios
-      .get('https://localhost:7014/api/SanPham/GetProductTopOrderAdmin')
-      .then((response) => {
-        setProducts(response.data)
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/order/getProductTopBuy`)
+        setProducts(response.data.data)
+      } catch (error) {
         console.log(error)
-      })
+      }
+    }
+    fetchData()
   }, [])
 
   const [orderStatuses, setOrderStatuses] = useState([])
-
   useEffect(() => {
-    fetch('https://localhost:7014/api/SanPham/GetOrderStatusSummary')
-      .then((response) => response.json())
-      .then((data) => {
-        // Lưu trữ dữ liệu vào state
-        setOrderStatuses(data)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/order/totalOrderStatus`)
+        setOrderStatuses(response.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
   }, [])
+
   return (
     <>
       <div className="root">
@@ -103,7 +108,7 @@ const Dashboard = () => {
               Tổng số đơn hàng: <span>{totalOrders}</span>
             </span>
             <span>
-              <img id="image_cart" src={CartImage} alt="My Image" />
+              <img id="image-cart" src={CartImage} alt="My Image" />
             </span>
           </div>
           <div className="col-3">
@@ -114,7 +119,7 @@ const Dashboard = () => {
               </p>{' '}
             </span>
             <span>
-              <img id="image_cart" src={doanhthu} alt="My Image" />
+              <img id="image-cart" src={doanhthu} alt="My Image" />
             </span>
           </div>
           <div className="col-3">
@@ -125,7 +130,7 @@ const Dashboard = () => {
               </p>{' '}
             </span>
             <span>
-              <img id="image_cart" src={doanhthu} alt="My Image" />
+              <img id="image-cart" src={doanhthu} alt="My Image" />
             </span>
           </div>
           <div className="col-3">
@@ -136,7 +141,7 @@ const Dashboard = () => {
               </p>{' '}
             </span>
             <span>
-              <img id="image_cart" src={review} alt="My Image" />
+              <img id="image-cart" src={review} alt="My Image" />
             </span>
           </div>
         </div>
@@ -145,12 +150,12 @@ const Dashboard = () => {
             Sản phẩm bán chạy
           </h3>
           {products.slice(0, 5).map((product, index) => (
-            <div className="ProductBestItem" key={product.varriantid}>
+            <div className="ProductBestItem" key={product.VARRIANTID}>
               <p className="index">{index + 1}</p>
-              <img src={product.imageVariant} alt={product.varrianname} />
-              <p className="ProductItemBestName">{product.varrianname}</p>
+              <img src={`${IMAGE_URL}${product.ImageVariant}`} alt={product.VARRIANNAME} />
+              <p className="ProductItemBestName">{product.VARRIANNAME}</p>
               <p className="quantityItem">
-                <span style={{ Width: '200px' }}> |Đã bán: {product.totalQuantity}</span>{' '}
+                <span style={{ Width: '200px' }}> |Đã bán: {product.total_quantity}</span>{' '}
               </p>
               <p>
                 <img className="iconbestproduct" src={TopBestProduct}></img>
@@ -161,13 +166,13 @@ const Dashboard = () => {
         <h3>Thông tin trạng thái các đơn hàng</h3>
         <div className="range">
           {orderStatuses.map((orderStatus) => (
-            <div key={orderStatus.orderStatusID} className="range_item_receive">
+            <div key={orderStatus.OrderStatusID} className="range_item_receive">
               <p style={{ color: '#e74c3c' }}>
                 {' '}
-                <p className="OrderStatusName">{orderStatus.orderStatusName}</p>
+                <p className="OrderStatusName">{orderStatus.OrderStatusName}</p>
               </p>
-              <p className="TotalOrderItem">{orderStatus.totalOrders} </p>
-              <input value={orderStatus.totalOrders} type="range" min="0" max={totalOrders}></input>
+              <p className="TotalOrderItem">{orderStatus.total_count} </p>
+              <input value={orderStatus.total_count} type="range" min="0" max={totalOrders}></input>
             </div>
           ))}
         </div>

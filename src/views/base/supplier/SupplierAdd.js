@@ -62,6 +62,7 @@ const AddSupplier = () => {
       alert('Thêm nhà cung cấp thành công!')
       navigate('/supplier')
     } catch (error) {
+      alert('Vui lòng nhập đầy đủ dữ liệu')
       console.log(error)
     }
   }

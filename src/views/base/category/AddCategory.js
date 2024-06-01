@@ -56,6 +56,7 @@ const AddCategory = () => {
       alert('Thêm danh mục thành công!')
       navigate('/category')
     } catch (error) {
+      alert('Vui lòng nhập đầy đủ dữ liệu!')
       console.log(error)
     }
   }

@@ -79,6 +79,7 @@ const AddImportInvoice = () => {
       alert('Thêm hoá đơn nhập thành công!')
       navigate('/importInvoice')
     } catch (error) {
+      alert('Vui lòng nhập đầy đủ thông tin')
       console.log(error)
     }
   }

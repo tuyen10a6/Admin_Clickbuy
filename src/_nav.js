@@ -157,8 +157,13 @@ const _nav = [
     items: [
       {
         component: CNavItem,
+        name: 'QL Khách hàng',
+        to: '/customer',
+      },
+      {
+        component: CNavItem,
         name: 'Đơn hàng',
-        to: '/forms/form-control',
+        to: '/order',
       },
     ],
   },

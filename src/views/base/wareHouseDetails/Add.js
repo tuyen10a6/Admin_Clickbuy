@@ -74,7 +74,7 @@ const AddWareHouseDetails = () => {
       navigate('/warehouseDetails')
     } catch (error) {
       console.log(error)
-      alert('Vui lòng nhập đúng các trường thông tin')
+      alert('Sản phẩm này đã có trong kho. Vui lòng check lại kho')
     }
   }
 

@@ -103,6 +103,7 @@ const AddProduct = () => {
       alert('Thêm dữ liệu thành công!')
       navigate('/product')
     } catch (error) {
+      alert('Vui lòng nhập đầy đủ thông tin')
       console.log(error)
     }
   }

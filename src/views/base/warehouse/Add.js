@@ -52,6 +52,7 @@ const AddWareHouse = () => {
       alert('Thêm kho hàng thành công!')
       navigate('/warehouse')
     } catch (error) {
+      alert('Vui lòng nhập đầy đủ thông tin!')
       console.log(error)
     }
   }

@@ -85,6 +85,7 @@ const AddImportInvoiceDetail = () => {
       alert('Thêm dữ liệu thành công!')
       navigate(`/importInvoiceDetail/${id}`)
     } catch (error) {
+      alert('Sản phẩm này không có trong kho. Vui lòng thêm sản phẩm vào kho này')
       console.log(error)
     }
   }
