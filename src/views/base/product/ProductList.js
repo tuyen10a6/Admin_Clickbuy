@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import axios from 'axios'
-import { Button, Container, Typography } from '@mui/material'
+import { Button, Container, TextField, Typography } from '@mui/material'
 import ButtonCreate from '@mui/icons-material/AddCircle'
 import Box from '@mui/material/Box'
 import { CircularProgress } from '@mui/material'
@@ -62,6 +62,7 @@ export default function ProductList() {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [searchProduct, setSearchProduct] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,6 +104,23 @@ export default function ProductList() {
       setLoading(true)
     })
   }, [])
+
+  const handleSearchChange = async (event) => {
+    setSearchProduct(event.target.value)
+    if (event.target.value === '') {
+      const response = await axios.get(`${API_URL}/api/product/getAll`)
+      setProduct(response.data.data.data)
+    } else {
+      try {
+        const response = await axios.get(`${API_URL}/api/product/search`, {
+          params: { key: event.target.value },
+        })
+        setProduct(response.data.data)
+      } catch (error) {
+        console.log('Error fetching data:', error)
+      }
+    }
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -146,16 +164,28 @@ export default function ProductList() {
     <Container>
       {loading ? (
         <Paper style={{ width: '100%', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}>
-          <Box>
-            <Button
-              onClick={handleAddProduct}
-              sx={{ m: 2 }}
-              variant="contained"
-              endIcon={<ButtonCreate />}
-            >
-              Thêm mới
-            </Button>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Box>
+              <Button
+                onClick={handleAddProduct}
+                sx={{ m: 2 }}
+                variant="contained"
+                endIcon={<ButtonCreate />}
+              >
+                Thêm mới
+              </Button>
+            </Box>
+            <Box sx={{ mr: 4 }}>
+              <TextField
+                value={searchProduct}
+                onChange={handleSearchChange}
+                id="product-name"
+                label="Tìm kiếm tên sản phẩm"
+                variant="standard"
+              />
+            </Box>
           </Box>
+
           <TableContainer style={{ maxHeight: 1000 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>

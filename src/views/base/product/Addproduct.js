@@ -19,6 +19,8 @@ const AddProduct = () => {
   const [brandChange, setBrandChange] = useState('')
   const [description, setDescription] = useState('')
   const [editorData, setEditorData] = useState('')
+  const [price, setPrice] = useState('')
+  const [priceDiscount, setPriceDiscount] = useState('')
 
   const handleEditorChange = (event, editor) => {
     const data = editor.getData()
@@ -85,6 +87,14 @@ const AddProduct = () => {
     setDescription(event.target.value)
   }
 
+  const onChangePriceProduct = (event) => {
+    setPrice(event.target.value)
+  }
+
+  const onChangePriceDiscountProduct = (event) => {
+    setPriceDiscount(event.target.value)
+  }
+
   const formData = new FormData()
 
   formData.append('ProductName', name)
@@ -93,6 +103,8 @@ const AddProduct = () => {
   formData.append('BrandID', brandChange)
   formData.append('Description', description)
   formData.append('DetailProduct', editorData)
+  formData.append('price', price)
+  formData.append('price_discount', priceDiscount)
 
   const handleAddProduct = async () => {
     try {
@@ -155,7 +167,7 @@ const AddProduct = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
-                Tạo đơn hàng
+                Tạo sản phẩm
               </Typography>
             </Box>
           </Box>
@@ -167,6 +179,29 @@ const AddProduct = () => {
             onChange={onChangeProductName}
             id="productName"
             label="Tên sản phẩm"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <TextField
+            onChange={onChangePriceProduct}
+            id="price"
+            type="number"
+            label="Giá sản phẩm"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container sx={{ width: '100%', mb: 5, pr: { lg: 0, xs: 4 } }}>
+        <Grid item xs={6} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+          <TextField
+            onChange={onChangePriceDiscountProduct}
+            id="price-discount"
+            type="number"
+            label="Giá khuyến mại (nếu có)"
             variant="outlined"
             fullWidth
           />
