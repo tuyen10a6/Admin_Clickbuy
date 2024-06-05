@@ -124,6 +124,7 @@ const AddProductVariant = () => {
                 id: 'uncontrolled-native',
               }}
             >
+              <option value="violet">Tím (Violet)</option>
               <option value="Black">Đen (Black)</option>
               <option value="White">Trắng (White)</option>
               <option value="Pink">Hồng (Pink)</option>

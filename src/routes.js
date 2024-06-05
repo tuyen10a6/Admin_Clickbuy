@@ -136,6 +136,10 @@ const Order = isAuthenticated
 const UpdateOrder = isAuthenticated
   ? React.lazy(() => import('./views/base/order/Update'))
   : () => <Navigate to="/" />
+
+const Comment = isAuthenticated
+  ? React.lazy(() => import('./views/base/comment/List'))
+  : () => <Navigate to="/" />
 //Forms
 const FormControl = React.lazy(() => import('./views/forms/form-control/FormControl'))
 
@@ -181,6 +185,7 @@ const routes = [
   { path: '/order/update/:id', name: 'order', element: UpdateOrder },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
+  { path: '/review', name: 'customer', element: Comment },
 ]
 
 export default routes

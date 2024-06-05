@@ -101,6 +101,11 @@ export default function ImportInvoiceList() {
     return `${day}/${month}/${year}`
   }
 
+  const formatNumber = (number) => {
+    var nf = new Intl.NumberFormat()
+    return nf.format(number)
+  }
+
   return (
     <Container>
       {loading ? (
@@ -163,7 +168,9 @@ export default function ImportInvoiceList() {
                       <TableCell style={{ textAlign: 'center' }}>
                         {formatDate(row.date_create)}
                       </TableCell>
-                      <TableCell style={{ textAlign: 'center' }}>{row.total_amount}</TableCell>
+                      <TableCell style={{ textAlign: 'center' }}>
+                        {formatNumber(row.total_amount)} VNĐ
+                      </TableCell>
                       <TableCell style={{ textAlign: 'center' }}>{row.notes}</TableCell>
                       <TableCell style={{ textAlign: 'center' }}>
                         {row.status == 1 ? (

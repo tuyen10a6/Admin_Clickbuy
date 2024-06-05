@@ -182,6 +182,11 @@ const _nav = [
         name: 'QL Image Sale Home',
         to: '/imageSaleRightHome',
       },
+      {
+        component: CNavItem,
+        name: 'Quản lý comment',
+        to: '/review',
+      },
     ],
   },
   {
