@@ -101,7 +101,7 @@ export default function ImportInvoiceDetail() {
                 <TableCell align="center">{row.quantity}</TableCell>
                 <TableCell align="center"> {formatNumber(row.discount)} VNĐ</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>
-                  {row.status === 1 ? (
+                  {row.status === 0 ? (
                     <Typography
                       style={{
                         background: 'rgb(114, 225, 40)',

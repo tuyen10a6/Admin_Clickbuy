@@ -98,7 +98,7 @@ export default function CommentList() {
       } catch (error) {
         console.error('Error fetching search data:', error)
       }
-    } else {
+    } else
       try {
         const response = await axios.get(`${API_URL}/api/review/getAll`)
         setComments(response.data.data)
@@ -106,9 +106,7 @@ export default function CommentList() {
       } catch (error) {
         console.error('Error fetching data:', error)
       }
-    }
   }
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }

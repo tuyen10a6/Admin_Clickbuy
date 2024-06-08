@@ -4,6 +4,8 @@ import { NativeSelect } from '@mui/material'
 import { FormControl } from '@mui/material'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AddWareHouseDetails = () => {
   const navigate = useNavigate()
@@ -70,11 +72,30 @@ const AddWareHouseDetails = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      alert('Thêm chi tiết kho hàng thành công!')
-      navigate('/warehouseDetails')
+      toast.success('Thêm chi tiết kho thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      setTimeout(() => {
+        navigate('/warehouseDetails')
+      }, 2200)
     } catch (error) {
-      console.log(error)
-      alert('Sản phẩm này đã có trong kho. Vui lòng check lại kho')
+      toast.error('Sản phẩm này đã có trong kho! Vui lòng check lại kho', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
     }
   }
 
@@ -154,6 +175,7 @@ const AddWareHouseDetails = () => {
           <Button onClick={handleAddWareHouse} variant="contained" color="primary">
             Lưu
           </Button>
+          <ToastContainer />
         </Grid>
       </Grid>
     </Grid>

@@ -108,10 +108,10 @@ export default function OrderList() {
                       {row.OrderID}
                     </TableCell>
                     <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
-                      {row.customer.CustomerName}
+                      {row.customer ? row.customer.CustomerName : ''}
                     </TableCell>
                     <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
-                      {row.customer.CustomerPhone}
+                      {row.customer ? row.customer.CustomerPhone : ''}
                     </TableCell>
                     <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
                       {format(new Date(row.created_at), 'dd/MM/yyyy HH:mm:ss')}

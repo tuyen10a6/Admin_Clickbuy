@@ -13,7 +13,10 @@ import ButtonCreate from '@mui/icons-material/AddCircle'
 import Box from '@mui/material/Box'
 import { CircularProgress } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-import EditIcon from '@mui/icons-material/Edit'
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop'
+import DoneIcon from '@mui/icons-material/Done'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const columns = [
   // { id: 'id', label: 'ID', minWidth: 100, align: 'center' },
@@ -43,7 +46,7 @@ export default function ImportInvoiceList() {
   const API_URL = process.env.REACT_APP_API_URL
 
   const navigate = useNavigate()
-
+  const token = localStorage.getItem('token')
   const [importInvoice, setImportInvoice] = useState([])
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0)
@@ -54,6 +57,7 @@ export default function ImportInvoiceList() {
       try {
         const response = await axios.get(`${API_URL}/api/importInvoice/getAllImportInvoice`)
         setImportInvoice(response.data.data)
+
         console.log('response import invoice:', response.data.data)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -64,6 +68,39 @@ export default function ImportInvoiceList() {
       setLoading(true)
     })
   }, [])
+
+  const handleUpdateStatus = async (id) => {
+    try {
+      const formData = new FormData()
+      formData.append('id', id)
+
+      const response = await axios.post(`${API_URL}/api/importInvoice/update`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      toast.success('Cập nhật trạng thái hoá đơn thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+    } catch (error) {
+      console.error(error)
+      toast.error('Lỗi khi cập nhật trạng thái', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+    }
+  }
 
   // const onChangeSearchWareHouse = async (param) => {
   //   try {
@@ -92,6 +129,7 @@ export default function ImportInvoiceList() {
   const handleAddImportInvoice = () => {
     navigate('add')
   }
+
   function formatDate(dateString) {
     const dateParts = dateString.split(' ')[0].split('-')
     const day = dateParts[2]
@@ -197,9 +235,11 @@ export default function ImportInvoiceList() {
                         )}
                       </TableCell>
                       <TableCell style={{ textAlign: 'center' }}>
-                        {/* <Link style={{ marginRight: '10px' }} to={`/supplier/update/${row.id}`}>
-                          <EditIcon />
-                        </Link> */}
+                        {row.status == 0 ? (
+                          <DoneIcon onClick={() => handleUpdateStatus(row.id)} />
+                        ) : null}
+                        <ToastContainer />
+                        <LocalPrintshopIcon style={{ marginLeft: '10px' }} />
                       </TableCell>
                     </TableRow>
                   ))}

@@ -4,6 +4,8 @@ import { NativeSelect } from '@mui/material'
 import { FormControl } from '@mui/material'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AddSupplier = () => {
   const navigate = useNavigate()
@@ -59,10 +61,30 @@ const AddSupplier = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      alert('Thêm nhà cung cấp thành công!')
-      navigate('/supplier')
+      toast.success('Thêm nhà cung cấp thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      setTimeout(() => {
+        navigate('/supplier')
+      }, 2200)
     } catch (error) {
-      alert('Vui lòng nhập đầy đủ dữ liệu')
+      toast.error('Vui lòng nhập đầy đủ dữ liệu', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
       console.log(error)
     }
   }
@@ -143,12 +165,12 @@ const AddSupplier = () => {
           </FormControl>
         </Grid>
       </Grid>
-
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
           <Button onClick={handleAddWareHouse} variant="contained" color="primary">
             Lưu
           </Button>
+          <ToastContainer />
         </Grid>
       </Grid>
     </Grid>

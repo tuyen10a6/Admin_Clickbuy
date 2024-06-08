@@ -4,6 +4,9 @@ import { NativeSelect } from '@mui/material'
 import { FormControl } from '@mui/material'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 const AddImportInvoiceDetail = () => {
   const navigate = useNavigate()
   const { id } = useParams()
@@ -75,17 +78,38 @@ const AddImportInvoiceDetail = () => {
   formData.append('discount', discount)
   formData.append('price', price)
   formData.append('warehouse_id', wareHouse)
-  formData.append('status', 1)
+  formData.append('status', 0)
   const handleAddImportInvoiceDetail = async () => {
     try {
       const response = await axios.post(`${API_URL}/api/importInvoiceDetail/store`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      alert('Thêm dữ liệu thành công!')
-      navigate(`/importInvoiceDetail/${id}`)
+      toast.success('Thêm chi tiết kho thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      setTimeout(() => {
+        navigate(`/importInvoiceDetail/${id}`)
+      }, 2200)
     } catch (error) {
-      alert('Sản phẩm này không có trong kho. Vui lòng thêm sản phẩm vào kho này')
+      toast.error('Sản phẩm này không có trong kho. Vui lòng thêm sản phẩm vào kho này', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+
       console.log(error)
     }
   }
@@ -185,6 +209,7 @@ const AddImportInvoiceDetail = () => {
           <Button onClick={handleAddImportInvoiceDetail} variant="contained" color="primary">
             Lưu
           </Button>
+          <ToastContainer />
         </Grid>
       </Grid>
     </Grid>

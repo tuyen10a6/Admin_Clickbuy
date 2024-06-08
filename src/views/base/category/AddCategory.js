@@ -5,6 +5,8 @@ import { FormControl } from '@mui/material'
 import axios from 'axios'
 import imageDefault from './../../../../src/assets/images/default-product-img.jpg'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AddCategory = () => {
   const navigate = useNavigate()
@@ -53,10 +55,30 @@ const AddCategory = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      alert('Thêm danh mục thành công!')
-      navigate('/category')
+      toast.success('Thêm danh mục thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      setTimeout(() => {
+        navigate('/category')
+      }, 2200)
     } catch (error) {
-      alert('Vui lòng nhập đầy đủ dữ liệu!')
+      toast.error('Vui lòng nhập đầy đủ thông tin dữ liệu', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
       console.log(error)
     }
   }
@@ -124,6 +146,7 @@ const AddCategory = () => {
           <Button onClick={handleAddCategory} variant="contained" color="primary">
             Lưu
           </Button>
+          <ToastContainer />
         </Grid>
       </Grid>
     </Grid>

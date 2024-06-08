@@ -7,6 +7,8 @@ import imageDefault from './../../../../src/assets/images/default-product-img.jp
 import { useNavigate } from 'react-router-dom'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AddProduct = () => {
   const navigate = useNavigate()
@@ -112,11 +114,31 @@ const AddProduct = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      alert('Thêm dữ liệu thành công!')
-      navigate('/product')
+      toast.success('Thêm sản phẩm thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      setTimeout(() => {
+        navigate('/product')
+      }, 2200)
     } catch (error) {
-      alert('Vui lòng nhập đầy đủ thông tin')
-      console.log(error)
+      toast.error('Vui lòng nhập đầy đủ thông tin dữ liệu', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      console.log('error', error)
     }
   }
 
@@ -286,6 +308,7 @@ const AddProduct = () => {
           <Button onClick={handleAddProduct} variant="contained" color="primary">
             Lưu
           </Button>
+          <ToastContainer />
         </Grid>
       </Grid>
     </Grid>

@@ -4,6 +4,8 @@ import { NativeSelect } from '@mui/material'
 import { FormControl } from '@mui/material'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AddImportInvoice = () => {
   const navigate = useNavigate()
@@ -76,11 +78,30 @@ const AddImportInvoice = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      alert('Thêm hoá đơn nhập thành công!')
-      navigate('/importInvoice')
+      toast.success('Thêm hoá đơn thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      setTimeout(() => {
+        navigate('/importInvoice')
+      }, 2200)
     } catch (error) {
-      alert('Vui lòng nhập đầy đủ thông tin')
-      console.log(error)
+      toast.error('Vui lòng nhập đầy đủ thông tin hoá đơn', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
     }
   }
 
@@ -153,6 +174,7 @@ const AddImportInvoice = () => {
           <Button onClick={handleAllImportInvoice} variant="contained" color="primary">
             Lưu
           </Button>
+          <ToastContainer />
         </Grid>
       </Grid>
     </Grid>
