@@ -60,14 +60,143 @@ export default function OrderList() {
     setPage(0)
   }
 
-  const handleClick = async ($id) => {
-    try {
-      const response = await axios.get(`${API_URL}/api/order/detail?id=${$id}`)
-      setOrderDetail(response.data.data)
-      console.log('data detail order: ', response.data.data)
-    } catch (error) {
-      console.error('Lỗi khi lấy chi tiết đơn hàng:', error)
-    }
+  // const handleClick = async ($id) => {
+  //   try {
+  //     const response = await axios.get(`${API_URL}/api/order/detail?id=${$id}`)
+  //     setOrderDetail(response.data.data)
+  //     console.log('data detail order: ', response.data.data)
+  //   } catch (error) {
+  //     console.error('Lỗi khi lấy chi tiết đơn hàng:', error)
+  //   }
+  // }
+  const formatNumber = (number) => {
+    var nf = new Intl.NumberFormat()
+    return nf.format(number)
+  }
+
+  function formatDate(dateString) {
+    const dateParts = dateString.split(' ')[0].split('-')
+    const day = dateParts[2]
+    const month = dateParts[1]
+    const year = dateParts[0]
+
+    return `${day}/${month}/${year}`
+  }
+
+  const handlePrintOrder = (id) => {
+    const invoice = order.find((invoice) => invoice.OrderID === id)
+
+    const invoiceDetailsRows = invoice.order_detail
+      .map(
+        (detail, index) => `
+      <tr>
+       <td>${index + 1}</td>
+      <td>${detail.product_variant.VARRIANNAME}</td>
+      <td>${detail.quantity}</td>
+      <td>${formatNumber(detail.price)} VNĐ</td>
+      </tr>
+    `,
+      )
+      .join('')
+
+    const printContents = `
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 20px;
+        }
+        h1 {
+          text-align: center;
+          font-size: 24px;
+        }
+        p {
+          font-size: 18px;
+          margin: 5px 0;
+        }
+        .invoice-container {
+          border: 1px solid #ccc;
+          padding: 20px;
+          border-radius: 10px;
+        }
+        .invoice-container div {
+          margin-bottom: 10px;
+        }
+        .invoice-header, .invoice-footer {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .header-title {
+          text-align: center;
+          font-size: 32px;
+          font-weight: bold;
+          color: red;
+          margin-bottom: 20px;
+        }
+        .info-row {
+          display: flex;
+          justify-content: space-between;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+        table, th, td {
+          border: 1px solid black;
+        }
+        th, td {
+          padding: 10px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+      <div class="invoice-container">
+        <div class="header-title">
+          CLICKBUY
+        </div>
+        <div class="invoice-header">
+          <h1>Mã hoá đơn: ${invoice.OrderID}</h1>
+        </div>
+        <div>
+          <div class="info-row">
+            <p>Tên khách hàng: ${invoice.customer.CustomerName}</p>
+            <p>Số điện thoại: ${invoice.customer.CustomerPhone}</p>
+          </div>
+          <div class="info-row">
+            <p>Địa chỉ: ${invoice.customer.CustomerAddress}</p>
+             <p>Email: ${invoice.customer.CustomerEmail}</p>
+          </div>
+          <div class="info-row">
+            <p>Ghi chú: ${invoice.note || ''}</p>
+            <p>Trạng thái: ${invoice.order_status.OrderStatusName}</p>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên biến thể</th>
+               <th>Số lượng</th>
+              <th>Giá tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${invoiceDetailsRows}
+          </tbody>
+        </table>
+        <div class="invoice-footer">
+          <p>Hệ thống bán hàng công nghệ uy tín hàng đầu Việt Nam</p>
+        </div>
+      </div>
+    `
+    const printWindow = window.open('', '', 'width=800,height=600')
+    printWindow.document.write('<html><head><title>Print Invoice</title></head><body>')
+    printWindow.document.write(printContents)
+    printWindow.document.write('</body></html>')
+    printWindow.document.close()
+    printWindow.print()
   }
 
   return (
@@ -127,7 +256,7 @@ export default function OrderList() {
                         <EditIcon />
                       </Link>
 
-                      <LocalPrintshopIcon onClick={() => handleClick(row.OrderID)} />
+                      <LocalPrintshopIcon onClick={() => handlePrintOrder(row.OrderID)} />
                     </TableCell>
                   </TableRow>
                 ))}

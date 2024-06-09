@@ -8,6 +8,9 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import {
   Button,
   Container,
@@ -74,7 +77,16 @@ export default function CommentList() {
       )
       console.log('response', response.data.status)
       if (response.data.status === true) {
-        alert('Cập nhật comment thành công')
+        toast.success('Cập nhật comment thành công', {
+          position: 'top-right',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        })
         setComments((prevComments) =>
           prevComments.map((comment) =>
             comment.ReviewID === id ? { ...comment, status: newStatus } : comment,
@@ -226,6 +238,7 @@ export default function CommentList() {
                         inputProps={{ 'aria-label': 'controlled' }}
                       />
                     </TableCell>
+                    <ToastContainer />
                   </TableRow>
                 ))}
               </TableBody>

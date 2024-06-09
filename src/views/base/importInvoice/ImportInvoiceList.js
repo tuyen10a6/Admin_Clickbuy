@@ -144,6 +144,122 @@ export default function ImportInvoiceList() {
     return nf.format(number)
   }
 
+  const handlePrintInvoice = (id) => {
+    const invoice = importInvoice.find((invoice) => invoice.id === id)
+
+    const invoiceDetailsRows = invoice.import_invoice_details
+      .map(
+        (detail, index) => `
+      <tr>
+       <td>${index + 1}</td>
+      <td>${detail.product_variant.VARRIANNAME}</td>
+      <td>${detail.quantity}</td>
+      <td>${formatNumber(detail.price)} VNĐ</td>
+      </tr>
+    `,
+      )
+      .join('')
+
+    const printContents = `
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 20px;
+        }
+        h1 {
+          text-align: center;
+          font-size: 24px;
+        }
+        p {
+          font-size: 18px;
+          margin: 5px 0;
+        }
+        .invoice-container {
+          border: 1px solid #ccc;
+          padding: 20px;
+          border-radius: 10px;
+        }
+        .invoice-container div {
+          margin-bottom: 10px;
+        }
+        .invoice-header, .invoice-footer {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .header-title {
+          text-align: center;
+          font-size: 32px;
+          font-weight: bold;
+          color: red;
+          margin-bottom: 20px;
+        }
+        .info-row {
+          display: flex;
+          justify-content: space-between;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+        table, th, td {
+          border: 1px solid black;
+        }
+        th, td {
+          padding: 10px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+      <div class="invoice-container">
+        <div class="header-title">
+          CLICKBUY
+        </div>
+        <div class="invoice-header">
+          <h1>Mã hoá đơn: ${invoice.id}</h1>
+        </div>
+        <div>
+          <div class="info-row">
+            <p>Nhân viên: ${invoice.staff}</p>
+            <p>Nhà cung cấp: ${invoice.supplier.name}</p>
+          </div>
+          <div class="info-row">
+            <p>Ngày nhập: ${formatDate(invoice.date_create)}</p>
+            <p>Số tiền: ${formatNumber(invoice.total_amount)} VNĐ</p>
+          </div>
+          <div class="info-row">
+            <p>Ghi chú: ${invoice.notes || ''}</p>
+            <p>Trạng thái: ${invoice.status === '1' ? 'Đã hoàn thành' : 'Đang nhập'}</p>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên biến thể</th>
+               <th>Số lượng</th>
+              <th>Giá tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${invoiceDetailsRows}
+          </tbody>
+        </table>
+        <div class="invoice-footer">
+          <p>Hệ thống bán hàng công nghệ uy tín hàng đầu Việt Nam</p>
+        </div>
+      </div>
+    `
+    const printWindow = window.open('', '', 'width=800,height=600')
+    printWindow.document.write('<html><head><title>Print Invoice</title></head><body>')
+    printWindow.document.write(printContents)
+    printWindow.document.write('</body></html>')
+    printWindow.document.close()
+    printWindow.print()
+  }
+
   return (
     <Container>
       {loading ? (
@@ -239,7 +355,10 @@ export default function ImportInvoiceList() {
                           <DoneIcon onClick={() => handleUpdateStatus(row.id)} />
                         ) : null}
                         <ToastContainer />
-                        <LocalPrintshopIcon style={{ marginLeft: '10px' }} />
+                        <LocalPrintshopIcon
+                          onClick={() => handlePrintInvoice(row.id)}
+                          style={{ marginLeft: '10px' }}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
