@@ -140,6 +140,14 @@ const UpdateOrder = isAuthenticated
 const Comment = isAuthenticated
   ? React.lazy(() => import('./views/base/comment/List'))
   : () => <Navigate to="/" />
+
+const EventMarketing = isAuthenticated
+  ? React.lazy(() => import('./views/base/eventMarketing/List'))
+  : () => <Navigate to="/" />
+
+const AddEventMarketing = isAuthenticated
+  ? React.lazy(() => import('./views/base/eventMarketing/Add'))
+  : () => <Navigate to="/" />
 //Forms
 const FormControl = React.lazy(() => import('./views/forms/form-control/FormControl'))
 
@@ -186,6 +194,8 @@ const routes = [
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
   { path: '/review', name: 'customer', element: Comment },
+  { path: '/eventMarketing', name: 'event-marketing', element: EventMarketing },
+  { path: '/eventMarketing/add', name: 'event-marketing', element: AddEventMarketing },
 ]
 
 export default routes

@@ -190,15 +190,24 @@ const _nav = [
     ],
   },
   {
-    component: CNavItem,
-    name: 'Thông báo',
-    to: '/widgets',
-    icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
+    component: CNavGroup,
+    name: 'Quản lý MKT',
+    icon: <CIcon icon={cilMenu} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Quản lý chiến dịch',
+        to: '/eventMarketing',
+      },
+
+      {
+        component: CNavItem,
+        name: 'Quản lý sự kiện',
+        to: '/review',
+      },
+    ],
   },
+
   {
     component: CNavTitle,
     name: 'Bổ sung',
