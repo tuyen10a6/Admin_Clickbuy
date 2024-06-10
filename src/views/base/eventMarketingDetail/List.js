@@ -147,15 +147,20 @@ export default function EventMarketingDetail() {
                         {row.name}
                       </TableCell>
                       <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
-                        {row.campaign_type}
+                        {row.nguoi_phu_trach}
                       </TableCell>
                       <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
-                        {row.purpose}
+                        {row.address_event}
+                      </TableCell>
+                      <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
+                        {formatDate(row.date_start)}
                       </TableCell>
                       <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
                         {formatDate(row.date_end)}
                       </TableCell>
-
+                      <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
+                        {row.event_marketing.name}
+                      </TableCell>
                       <TableCell style={{ textAlign: 'center' }}>
                         {row.status == 1 ? (
                           <Typography

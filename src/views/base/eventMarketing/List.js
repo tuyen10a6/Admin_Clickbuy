@@ -15,7 +15,7 @@ import { format } from 'date-fns'
 
 const columns = [
   { id: 'id', label: 'ID', minWidth: 50, align: 'center' },
-  { id: 'name', label: 'Tên sự kiện', minWidth: 180, align: 'center' },
+  { id: 'name', label: 'Tên chiến dịch', minWidth: 180, align: 'center' },
   { id: 'type', label: 'Loại chiến dịch', minWidth: 210, align: 'center' },
   { id: 'purpose', label: 'Mục đích', minWidth: 200, align: 'center' },
   { id: 'date-end', label: 'Ngày kết thúc', minWidth: 120, align: 'center' },

@@ -203,7 +203,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Quản lý sự kiện',
-        to: '/review',
+        to: '/eventMarketingDetail',
       },
     ],
   },
