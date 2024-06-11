@@ -8,12 +8,13 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import axios from 'axios'
-import { Button, Container, Typography, Box, CircularProgress, TextField } from '@mui/material'
+import { Button, Container, Typography, Box, CircularProgress, NativeSelect } from '@mui/material'
 import ButtonCreate from '@mui/icons-material/AddCircle'
 import { Link, useNavigate } from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit'
 import { format } from 'date-fns'
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop'
+import { FormControl, Select, MenuItem } from '@mui/material'
 
 const columns = [
   { id: 'id', label: 'ID đơn hàng', minWidth: 30, align: 'center' },
@@ -30,10 +31,11 @@ export default function OrderList() {
   const navigate = useNavigate()
 
   const [order, setOrder] = useState([])
-  const [orderDetail, setOrderDetail] = useState({})
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [orderStatus, setOrderStatus] = useState([])
+  const [selectedStatus, setSelectedStatus] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +51,18 @@ export default function OrderList() {
     fetchData().finally(() => {
       setLoading(true)
     })
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/order/status`)
+        setOrderStatus(response.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
   }, [])
 
   const handleChangePage = (event, newPage) => {
@@ -199,6 +213,18 @@ export default function OrderList() {
     printWindow.print()
   }
 
+  const handleChangeStatus = async (event) => {
+    const statusId = event.target.value
+    setSelectedStatus(statusId)
+
+    try {
+      const response = await axios.get(`${API_URL}/api/order/orderByStatus?id=${statusId}`)
+      setOrder(response.data.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Container>
       {loading ? (
@@ -209,6 +235,28 @@ export default function OrderList() {
             >
               DANH SÁCH ĐƠN HÀNG
             </Typography>
+            <FormControl
+              style={{ width: '250px', marginRight: '20px', height: '40px', marginBottom: '10px' }}
+            >
+              <Select
+                labelId="order-status-label"
+                id="order-status"
+                name="status"
+                value={selectedStatus}
+                onChange={handleChangeStatus}
+                // onChange={onChangeStatus}
+                label="Trạng thái"
+              >
+                <MenuItem selected value={'all'}>
+                  Tất cả
+                </MenuItem>
+                {orderStatus.map((status) => (
+                  <MenuItem key={status.OrderStatusID} value={status.OrderStatusID}>
+                    {status.OrderStatusName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
           <TableContainer style={{ maxHeight: 1000 }}>
             <Table stickyHeader aria-label="sticky table">

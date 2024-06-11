@@ -15,11 +15,11 @@ import { format } from 'date-fns'
 
 const columns = [
   { id: 'id', label: 'ID', minWidth: 50, align: 'center' },
-  { id: 'name', label: 'Tên chiến dịch', minWidth: 180, align: 'center' },
+  { id: 'name', label: 'Tên chiến dịch', minWidth: 220, align: 'center' },
   { id: 'type', label: 'Loại chiến dịch', minWidth: 210, align: 'center' },
   { id: 'purpose', label: 'Mục đích', minWidth: 200, align: 'center' },
   { id: 'date-end', label: 'Ngày kết thúc', minWidth: 120, align: 'center' },
-  { id: 'status', label: 'Trạng thái', minWidth: 120, align: 'center' },
+  { id: 'status', label: 'Trạng thái', minWidth: 170, align: 'center' },
 ]
 
 export default function EventMarketing() {
@@ -154,7 +154,7 @@ export default function EventMarketing() {
                         {formatDate(row.date_end)}
                       </TableCell>
 
-                      <TableCell style={{ textAlign: 'center' }}>
+                      <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
                         {row.status == 1 ? (
                           <Typography
                             style={{

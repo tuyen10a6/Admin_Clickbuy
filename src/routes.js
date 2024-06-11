@@ -1,5 +1,3 @@
-import { Update } from '@mui/icons-material'
-import { element } from 'prop-types'
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 
@@ -156,6 +154,10 @@ const EventMarketingDetail = isAuthenticated
 const AddEventMarketingDetail = isAuthenticated
   ? React.lazy(() => import('./views/base/eventMarketingDetail/Add'))
   : () => <Navigate to="/" />
+
+const UpdateEventMarketingDetail = isAuthenticated
+  ? React.lazy(() => import('./views/base/eventMarketingDetail/Update'))
+  : () => <Navigate to="/" />
 //Forms
 const FormControl = React.lazy(() => import('./views/forms/form-control/FormControl'))
 
@@ -206,6 +208,11 @@ const routes = [
   { path: '/eventMarketing/add', name: 'event-marketing', element: AddEventMarketing },
   { path: '/eventMarketingDetail', name: 'event-marketing', element: EventMarketingDetail },
   { path: '/eventMarketingDetail/add', name: 'event-marketing', element: AddEventMarketingDetail },
+  {
+    path: '/eventMarketingDetail/update/:id',
+    name: 'event-marketing',
+    element: UpdateEventMarketingDetail,
+  },
 ]
 
 export default routes

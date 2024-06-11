@@ -10,18 +10,20 @@ import TableRow from '@mui/material/TableRow'
 import axios from 'axios'
 import { Button, Container, Typography, Box, CircularProgress } from '@mui/material'
 import ButtonCreate from '@mui/icons-material/AddCircle'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
+import EditIcon from '@mui/icons-material/Edit'
 
 const columns = [
-  { id: 'id', label: 'ID', minWidth: 50, align: 'center' },
-  { id: 'name', label: 'Tên sự kiện', minWidth: 180, align: 'center' },
-  { id: 'people', label: 'Người phụ trách', minWidth: 210, align: 'center' },
-  { id: 'address-event', label: 'Địa chỉ', minWidth: 200, align: 'center' },
-  { id: 'date-start', label: 'Ngày bắt đầu', minWidth: 120, align: 'center' },
-  { id: 'date-end', label: 'Ngày kết thúc', minWidth: 120, align: 'center' },
-  { id: 'event-marketing-name', label: 'Tên chiến dịch', minWidth: 120, align: 'center' },
+  { id: 'id', label: 'ID', minWidth: 30, align: 'center' },
+  { id: 'name', label: 'Tên sự kiện', minWidth: 200, align: 'center' },
+  { id: 'people', label: 'Người PT', minWidth: 110, align: 'center' },
+  { id: 'address-event', label: 'Địa chỉ', minWidth: 240, align: 'center' },
+  { id: 'date-start', label: 'Ngày BĐ', minWidth: 120, align: 'center' },
+  { id: 'date-end', label: 'Ngày KT', minWidth: 120, align: 'center' },
+  { id: 'event-marketing-name', label: 'Tên chiến dịch', minWidth: 200, align: 'center' },
   { id: 'status', label: 'Trạng thái', minWidth: 120, align: 'center' },
+  { id: 'update', label: 'Cập nhật', minWidth: 120, align: 'center' },
 ]
 
 export default function EventMarketingDetail() {
@@ -161,7 +163,7 @@ export default function EventMarketingDetail() {
                       <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
                         {row.event_marketing.name}
                       </TableCell>
-                      <TableCell style={{ textAlign: 'center' }}>
+                      <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
                         {row.status == 1 ? (
                           <Typography
                             style={{
@@ -184,6 +186,11 @@ export default function EventMarketingDetail() {
                             Không hoạt động
                           </Typography>
                         )}
+                      </TableCell>
+                      <TableCell style={{ textAlign: 'center', backgroundColor: '#e0f7fa' }}>
+                        <Link to={`/eventMarketingDetail/update/${row.id}`}>
+                          <EditIcon />
+                        </Link>
                       </TableCell>
                     </TableRow>
                   ))}
